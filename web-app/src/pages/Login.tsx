@@ -1,8 +1,16 @@
+import axios from "axios";
 import { useState } from "react";
 
 function Login(){
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+
+  const apiCall = () => {
+    axios.get('http://localhost:8080').then((data) => {
+      //this console.log will be in our frontend console
+      console.log(data)
+    })
+  }
 
   return(
     <>
@@ -27,7 +35,9 @@ function Login(){
       </input>
     </div>
     <div>
-      <button>Login</button>
+      <button
+      onClick={apiCall}
+      >Login</button>
     </div>
 
     </div>
