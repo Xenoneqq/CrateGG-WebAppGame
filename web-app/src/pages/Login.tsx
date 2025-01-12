@@ -5,11 +5,17 @@ function Login(){
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
 
-  const apiCall = () => {
-    axios.get('http://localhost:8080').then((data) => {
-      //this console.log will be in our frontend console
-      console.log(data)
-    })
+  const handlelogin = async () => {
+    try{
+      const response = await axios.post('http://localhost:8080/login', {
+        username: user, 
+        password: password
+      });
+      
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return(
@@ -36,7 +42,7 @@ function Login(){
     </div>
     <div>
       <button
-      onClick={apiCall}
+      onClick={handlelogin}
       >Login</button>
     </div>
 
