@@ -13,7 +13,7 @@ app.use(cors())
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-app.use('/login', userRouter);
+app.use('/users', userRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello from our server!')
