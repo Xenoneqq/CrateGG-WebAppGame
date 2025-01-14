@@ -3,6 +3,10 @@ const { users } = require('../database.js');
 const router = express.Router()
 const bcrypt = require('bcrypt');
 
+// jwt setup
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = "abcddd443";
+
 router.post('/login', async (req,res) => {
   const {username, password} = req.body;
 
@@ -27,9 +31,20 @@ router.post('/login', async (req,res) => {
       return res.status(400).json({ message: 'Wrong username or password' });
     }
 
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        id: userData.id,
+        role: 'player',
+        username: userData.username,
+      },
+      JWT_SECRET,
+      { expiresIn: '6h' }
+    );
+    
     // logging in as user
     console.log('User found:', userData);
-    res.json({ message: `User ${username} found`, userData });
+    res.json({ message: `User ${username} found`, userData, jwt:`${token}` });
     
     
   } catch (error) {
