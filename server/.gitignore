@@ -1,0 +1,28 @@
+# Node.js
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (zachowujemy bezpieczeństwo kluczy API, haseł itp.)
+.env
+
+# Logs
+logs/
+*.log
+
+# Tymczasowe pliki tworzone przez edytory lub system
+*.swp
+*.swo
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Pliki IDE
+.idea/
+.vscode/
+
+# Wyjątek: przykładowa baza danych ma zostać na git
+# Dodaj tutaj komentarz, aby pamiętać, że baza danych jest celowo przechowywana w repo:
+# !database.db
