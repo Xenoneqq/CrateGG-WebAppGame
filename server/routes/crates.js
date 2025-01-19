@@ -14,13 +14,9 @@ router.get('/', async (req, res) => {
 })
 
 // GET specific crate by crateID
-router.get('/crates/:crateID', async (req, res) => {
+router.get('/id/:crateID', async (req, res) => {
   try {
-    const crate = await crates.findByPk(req.params.crateID, {
-      include: [
-        { model: users, as: 'owner' },  // Assuming crates have an ownerID foreign key
-      ],
-    });
+    const crate = await crates.findByPk(req.params.crateID);
 
     if (!crate) {
       return res.status(404).send({ error: "Crate not found." });
@@ -30,6 +26,7 @@ router.get('/crates/:crateID', async (req, res) => {
     res.status(500).send({ error: "Couldn't fetch the crate." });
   }
 });
+
 
 
 // GET all crates owned by a user with userID

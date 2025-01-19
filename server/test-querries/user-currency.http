@@ -1,0 +1,47 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNzM3MzI1NDI0LCJleHAiOjE3MzczNDcwMjR9.bYChLfCPWhMMpTgLJUOc2YWwR-JX48ASYPK0FaRRyVw
+
+# Test: GET all users' currency balances
+GET http://localhost:8080/user-currency
+Accept: application/json
+
+###
+
+# Test: GET a specific user's currency balance by userID (replace with an actual userID)
+GET http://localhost:8080/user-currency/1
+Accept: application/json
+
+###
+
+# Test: PUT update a user's currency balance (replace with an actual userID)
+PUT http://localhost:8080/user-currency/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "currency": 500
+}
+
+###
+
+# Test: POST add a new user currency entry (replace with an actual userID)
+POST http://localhost:8080/user-currency
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userID": 1,
+  "currency": 1000
+}
+
+###
+
+# Test: POST add a new user currency entry (default currency of 250 if not specified)
+POST http://localhost:8080/user-currency
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userID": 2
+}
+
+###

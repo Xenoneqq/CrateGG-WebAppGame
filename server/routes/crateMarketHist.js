@@ -6,13 +6,7 @@ const router = express.Router();
 // GET all market transactions (history)
 router.get('/', async (req, res) => {
   try {
-    const allTransactions = await crateMarketHist.findAll({
-      include: [
-        { model: crates, as: 'crate' },
-        { model: users, as: 'seller' },
-        { model: users, as: 'buyer' },
-      ],
-    });
+    const allTransactions = await crateMarketHist.findAll();
     res.json(allTransactions);
   } catch (err) {
     res.status(500).send({ error: "Couldn't fetch transaction history." });
@@ -20,15 +14,9 @@ router.get('/', async (req, res) => {
 });
 
 // GET specific crate transaction by crateMarketHistID
-router.get('/hist/:crateMarketHistID', async (req, res) => {
+router.get('/id/:crateMarketHistID', async (req, res) => {
   try {
-    const transaction = await crateMarketHist.findByPk(req.params.crateMarketHistID, {
-      include: [
-        { model: crates, as: 'crate' },
-        { model: users, as: 'seller' },
-        { model: users, as: 'buyer' },
-      ],
-    });
+    const transaction = await crateMarketHist.findByPk(req.params.crateMarketHistID);
     if (!transaction) {
       return res.status(404).send({ error: "Transaction not found in market history." });
     }
@@ -39,15 +27,9 @@ router.get('/hist/:crateMarketHistID', async (req, res) => {
 });
 
 // GET all market transactions for crates of a specific crateAssetID
-router.get('/hist/type/:crateAssetID', async (req, res) => {
+router.get('/crate/:crateAssetID', async (req, res) => {
   try {
-    const transactionsForType = await crateMarketHist.findAll({
-      include: [
-        { model: crates, as: 'crate', where: { crateAssetID: req.params.crateAssetID } },
-        { model: users, as: 'seller' },
-        { model: users, as: 'buyer' },
-      ],
-    });
+    const transactionsForType = await crateMarketHist.findAll();
     if (transactionsForType.length === 0) {
       return res.status(404).send({ error: "No transactions found for this type of crate." });
     }

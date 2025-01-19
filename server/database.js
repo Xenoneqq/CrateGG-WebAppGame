@@ -15,18 +15,20 @@ users.hasMany(crates, { foreignKey: 'ownerID' });
 crates.belongsTo(users, { foreignKey: 'ownerID' });
 
 // user --< market
-crateMarket.belongsTo(crates, { foreignKey: 'crateID', as: 'crate' });
-crates.hasMany(crateMarket, { foreignKey: 'crateID', as: 'marketListings' });
-crateMarket.belongsTo(users, { foreignKey: 'sellerID', as: 'seller' });
-users.hasMany(crateMarket, { foreignKey: 'sellerID', as: 'marketListings' });
+crateMarket.belongsTo(crates, { foreignKey: 'crateID' });
+crates.hasMany(crateMarket, { foreignKey: 'crateID' });
+crateMarket.belongsTo(users, { foreignKey: 'sellerID' });
+users.hasMany(crateMarket, { foreignKey: 'sellerID' });
+
 
 // user --< market history
-crateMarketHist.belongsTo(crates, { foreignKey: 'crateID', as: 'crate' });
-crates.hasMany(crateMarketHist, { foreignKey: 'crateID', as: 'marketHistory' });
-crateMarketHist.belongsTo(users, { foreignKey: 'sellerID', as: 'seller' });
-crateMarketHist.belongsTo(users, { foreignKey: 'buyerID', as: 'buyer' });
-users.hasMany(crateMarketHist, { foreignKey: 'sellerID', as: 'sales' });
-users.hasMany(crateMarketHist, { foreignKey: 'buyerID', as: 'purchases' });
+crateMarketHist.belongsTo(crates, { foreignKey: 'crateID' });
+crates.hasMany(crateMarketHist, { foreignKey: 'crateID' });
+crateMarketHist.belongsTo(users, { foreignKey: 'sellerID' });
+crateMarketHist.belongsTo(users, { foreignKey: 'buyerID' });
+users.hasMany(crateMarketHist, { foreignKey: 'sellerID' });
+users.hasMany(crateMarketHist, { foreignKey: 'buyerID' });
+
 
 // user --- currency
 users.hasOne(userCurrency, { foreignKey: 'userID' });

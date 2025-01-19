@@ -8,7 +8,7 @@ Authorization: Bearer {{token}}
 ###
 
 ### Crate Market - GET Specific Market Item by ID
-GET http://localhost:8080/market/{{marketId}}
+GET http://localhost:8080/market/id/{{marketId}}
 Authorization: Bearer {{token}}
 
 ###
@@ -19,8 +19,8 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "crateID": 2,
-  "price": 100,
+  "crateID": 6,
+  "price": 200,
   "sellerID": 1
 }
 
@@ -30,8 +30,9 @@ Content-Type: application/json
 PUT http://localhost:8080/market/{{marketId}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
+
 {
-  "crateID": 2,
+  "crateID": 6,
   "price": 150,
   "sellerID": 1
 }

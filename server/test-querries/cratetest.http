@@ -1,17 +1,16 @@
-@baseUrl = http://localhost:8080/crates
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNzM3MzI1NDI0LCJleHAiOjE3MzczNDcwMjR9.bYChLfCPWhMMpTgLJUOc2YWwR-JX48ASYPK0FaRRyVw
-@crateId = 3
+@crateId = 2
 
 ### Fetch All Crates
-GET {{baseUrl}}
+GET http://localhost:8080/crates
 Authorization: Bearer {{token}}
 
 ### Fetch Specific Crate by ID
-GET {{baseUrl}}/{{crateId}}
+GET http://localhost:8080/crates/id/{{crateId}}
 Authorization: Bearer {{token}}
 
 ### Create a New Crate
-POST {{baseUrl}}
+POST http://localhost:8080/crates
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
