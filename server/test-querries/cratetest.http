@@ -1,0 +1,23 @@
+@baseUrl = http://localhost:8080/crates
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNzM3MzI1NDI0LCJleHAiOjE3MzczNDcwMjR9.bYChLfCPWhMMpTgLJUOc2YWwR-JX48ASYPK0FaRRyVw
+@crateId = 3
+
+### Fetch All Crates
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+### Fetch Specific Crate by ID
+GET {{baseUrl}}/{{crateId}}
+Authorization: Bearer {{token}}
+
+### Create a New Crate
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "crateAssetID": "wooden_crate",
+  "patternIndex": 22,
+  "ownerID": 1
+}
+

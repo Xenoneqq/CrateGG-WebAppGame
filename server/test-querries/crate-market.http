@@ -1,0 +1,43 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNzM3MzI1NDI0LCJleHAiOjE3MzczNDcwMjR9.bYChLfCPWhMMpTgLJUOc2YWwR-JX48ASYPK0FaRRyVw
+@marketId = 3
+
+### Crate Market - GET All Market Items
+GET http://localhost:8080/market
+Authorization: Bearer {{token}}
+
+###
+
+### Crate Market - GET Specific Market Item by ID
+GET http://localhost:8080/market/{{marketId}}
+Authorization: Bearer {{token}}
+
+###
+
+### Crate Market - POST a New Market Item
+POST http://localhost:8080/market
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "crateID": 2,
+  "price": 100,
+  "sellerID": 1
+}
+
+###
+
+### Crate Market - PUT Update Market Item
+PUT http://localhost:8080/market/{{marketId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+{
+  "crateID": 2,
+  "price": 150,
+  "sellerID": 1
+}
+
+###
+
+### Crate Market - DELETE Market Item
+DELETE http://localhost:8080/market/{{marketId}}
+Authorization: Bearer {{token}}
