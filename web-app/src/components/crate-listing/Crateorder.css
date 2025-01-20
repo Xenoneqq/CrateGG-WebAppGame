@@ -1,0 +1,30 @@
+.crateOrder{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 240px;
+  padding: 5px;
+  border-radius: 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgb(64,64,64);
+  background-color: black;
+}
+
+.crateName{
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.buyButton{
+  background-color: rgb(32, 32, 32);
+  border-style: none;
+  width: 100%;
+}
+
+.buyButton:hover{
+  background-color: darkorange;
+}

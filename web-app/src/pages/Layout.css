@@ -1,0 +1,51 @@
+.appNavBar{
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  gap:20px;
+  align-items: center;
+  box-sizing: border-box;
+  height: 35px;
+  width: 100%;
+  padding: 10px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: black;
+  margin-left: -10px;
+}
+
+.navBarFiller{
+  box-sizing: border-box;
+  height: 35px;
+  width: 100%;
+  padding: 10px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-left: -12px;
+  margin-top: -10px;
+}
+
+.logo{
+  color: rgb(57, 255, 47);
+  margin-left: 5px;
+  
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.navlink{
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+  color: rgb(255, 255, 255);
+}
+
+.currency{
+  position: fixed;
+  right: 15px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 20px;
+  color: gold;
+}

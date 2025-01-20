@@ -11,8 +11,8 @@ const crates:[crate] = [
     name:'wooden crate',
     rarity:'common',
     imagePathPatternCallback:(pattern:number) => {
-      if(pattern == 753) return './wooden/r_wooden';
-      return './wooden/crate_' + pattern%1000;
+      if(pattern == 753) return '/wooden/r_wooden';
+      return '/wooden/crate_' + pattern%1000;
     }
   },
 ]
