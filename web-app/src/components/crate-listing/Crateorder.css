@@ -12,6 +12,15 @@
   border-style: solid;
   border-color: rgb(64,64,64);
   background-color: black;
+  transition: background-color 0.2s;
+  transition: border-color 0.2s;
+  user-select: none;
+}
+
+.crateOrder:hover{
+  cursor:pointer;
+  background-color: rgb(18,18,18);
+  border-color: rgb(202, 202, 202);
 }
 
 .crateName{
@@ -31,4 +40,10 @@
 
 .buyButton:hover{
   background-color: darkorange;
+}
+
+.price{
+  color: orange;
+  font-size: 20px;
+  font-weight: 700;
 }

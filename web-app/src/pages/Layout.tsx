@@ -12,9 +12,7 @@ const Layout = () => {
     if(loggedUser != null){
       try{
       const response = await axios.get(`http://localhost:8080/user-currency/${loggedUser}`);
-      console.log(response);
       if(response.status == 201 && response.data != null)
-        console.log(response);
         setCurrency(response.data.currency);
       } catch (error) {
         console.error(error);

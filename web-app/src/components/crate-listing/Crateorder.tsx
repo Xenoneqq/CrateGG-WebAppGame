@@ -1,7 +1,13 @@
 const cratePath = '/crates';
 import './Crateorder.css'
+import getCrate from '../../assets/crates/crateData'
 
-function Crateorder(crate, listing){
+function Crateorder(props){
+  const crateDB = props.crate;
+  const crate = getCrate(crateDB.crateAssetID);
+  const user = props.user;
+  const offer = props;
+  
   const color = (rarity) => {
     switch(rarity){
       case "common":{
@@ -21,10 +27,10 @@ function Crateorder(crate, listing){
 
   return(
     <>
-    <div className="crateOrder">
+    <div onClick={props.onClick} className="crateOrder">
       <div className='crateName' style={{color: color(crate.rarity)}}>{crate.name}</div>
-      <img className="crateImage" src={cratePath + crate.imagePathPatternCallback(0)}></img>
-      <button className='buyButton'>Buy 100CC</button>
+      <img className="crateImage" src={cratePath + crate.imagePathPatternCallback(crateDB.patternIndex)} draggable={false}></img>
+      <div className='price'>{offer.price} CC</div>
     </div>
     </>
   )

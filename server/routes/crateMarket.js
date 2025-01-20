@@ -1,5 +1,5 @@
 const express = require('express');
-const { crateMarket, crates, users } = require('../database.js');
+const { crateMarket, crates, users , sequelize } = require('../database.js');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router();
 
@@ -83,5 +83,23 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     res.status(500).send({ error: "Couldn't delete crate market listing." });
   }
 });
+
+// OTHER SPECIFIC QUERRIES
+
+router.get('/alldata', async (req, res) => {
+  try {
+    const marketData = await crateMarket.findAll({
+      include: [
+        { model: crates },
+        { model: users },
+      ],
+    });
+    res.json(marketData);
+  } catch (err) {
+    res.status(500).send({ error: "Couldn't fetch market data." });
+  }
+});
+
+
 
 module.exports = router;

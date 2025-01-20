@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNzM3MzI1NDI0LCJleHAiOjE3MzczNDcwMjR9.bYChLfCPWhMMpTgLJUOc2YWwR-JX48ASYPK0FaRRyVw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTczNzM4OTIwMCwiZXhwIjoxNzM3NDEwODAwfQ.8t0UUF_RJ7N3ORw1DuXL5byH6OgcMj6J5QSgBwpLTzg
 @crateId = 2
 
 ### Fetch All Crates
@@ -17,6 +17,6 @@ Content-Type: application/json
 {
   "crateAssetID": "wooden_crate",
   "patternIndex": 22,
-  "ownerID": 1
+  "ownerID": 2
 }
 

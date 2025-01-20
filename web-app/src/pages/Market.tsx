@@ -1,9 +1,9 @@
-import Crateorder from "../components/crate-listing/Crateorder";
+import Cratepanel from "../components/crate-listing/Cratepanel";
 
 function Market(){
   return(
     <>
-    <Crateorder/>
+    <Cratepanel/>
     </>
   )
 }
