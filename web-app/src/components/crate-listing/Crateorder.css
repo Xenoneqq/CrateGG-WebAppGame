@@ -1,7 +1,7 @@
 .crateOrder{
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   align-items: center;
   justify-content: center;
   width: 200px;
@@ -19,10 +19,14 @@
   font-weight: 600;
 }
 
+.crateImage{
+  width:100px;
+  image-rendering: pixelated;
+}
+
 .buyButton{
   background-color: rgb(32, 32, 32);
   border-style: none;
-  width: 100%;
 }
 
 .buyButton:hover{

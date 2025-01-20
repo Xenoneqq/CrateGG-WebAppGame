@@ -1,21 +1,29 @@
-const cratePath = '../crates/crates';
+const cratePath = '/crates';
 import './Crateorder.css'
 
-function Crateorder(){
-  const crate = {
-    crateID:'wooden_crate',
-    name:'wooden crate',
-    rarity:'common',
-    imagePathPatternCallback:(pattern:number) => {
-      return '/wooden/crate_0.png';
+function Crateorder(crate, listing){
+  const color = (rarity) => {
+    switch(rarity){
+      case "common":{
+        return 'white';
+      }
+      case "rare":{
+        return 'cyan';
+      }
+      case "legendary":{
+        return 'red';
+      }
+      default:{
+        return 'white';
+      }
     }
   }
 
   return(
     <>
     <div className="crateOrder">
-      <div className='crateName'>{crate.name}</div>
-      <img src={'../../assets/crates/crates/wooden/crate_0.png'}></img>
+      <div className='crateName' style={{color: color(crate.rarity)}}>{crate.name}</div>
+      <img className="crateImage" src={cratePath + crate.imagePathPatternCallback(0)}></img>
       <button className='buyButton'>Buy 100CC</button>
     </div>
     </>
