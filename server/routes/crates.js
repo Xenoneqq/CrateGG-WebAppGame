@@ -1,5 +1,5 @@
 const express = require('express')
-const { crates } = require('../database.js');
+const { crates, users } = require('../database.js');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router()
 
@@ -31,21 +31,32 @@ router.get('/id/:crateID', async (req, res) => {
 
 // GET all crates owned by a user with userID
 router.get('/user/:userID', async (req, res) => {
+  const { userID } = req.params;  // Destrukturalizowanie userID
+
+  if (!userID) {
+    return res.status(400).send({ error: "UserID is required." });
+  }
+
   try {
     const userCrates = await crates.findAll({
-      where: { ownerID: req.params.userID },
+      where: { ownerID: userID },  // Używamy userID z req.params
       include: [
-        { model: users, as: 'owner' } // Include user information if needed
+        { model: users, attributes: ['id', 'username'] }  // Możesz załączyć tylko wybrane pola z modelu users
       ]
     });
+
     if (userCrates.length === 0) {
       return res.status(404).send({ error: "No crates found for this user." });
     }
+
     res.json(userCrates);
   } catch (err) {
+    console.error(err);  // Możesz dodać logowanie błędów dla lepszego śledzenia
     res.status(500).send({ error: "Couldn't fetch user crates." });
   }
 });
+
+
 
 
 // POST a new crate to the database

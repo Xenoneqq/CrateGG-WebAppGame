@@ -1,5 +1,5 @@
 const express = require('express');
-const { crateMarket, crates, users } = require('../database.js');
+const { crateMarket, crateMarketHist, crates, users , sequelize, userCurrency } = require('../database.js');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router();
 
@@ -83,5 +83,97 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     res.status(500).send({ error: "Couldn't delete crate market listing." });
   }
 });
+
+// OTHER SPECIFIC QUERRIES
+
+router.get('/alldata', async (req, res) => {
+  try {
+    const marketData = await crateMarket.findAll({
+      include: [
+        { model: crates },
+        { model: users },
+      ],
+    });
+    res.json(marketData);
+  } catch (err) {
+    res.status(500).send({ error: "Couldn't fetch market data." });
+  }
+});
+
+// Purchasing the crate
+
+router.post('/buy', authenticateToken, async (req, res) => {
+  const { userID, marketID } = req.body;
+  console.log(req.body);
+
+  if (!userID || !marketID) {
+    return res.status(400).json({ error: 'Missing userID or marketID.' });
+  }
+
+  try {
+    // Rozpoczęcie transakcji
+    const transaction = await sequelize.transaction();
+
+    try {
+      // Pobranie danych skrzynki z marketu
+      const marketEntry = await crateMarket.findOne({
+        where: { id: marketID },
+        include: [{ model: crates }, { model: users }],
+        transaction,
+      });
+
+      if (!marketEntry) {
+        throw new Error('Market entry not found.');
+      }
+
+      const cratePrice = marketEntry.price;
+
+      // Pobranie waluty gracza
+      const userBalance = await userCurrency.findOne({ where: { userID }, transaction });
+
+      if (!userBalance || userBalance.currency < cratePrice) {
+        throw new Error('Not enough currency to buy the crate.');
+      }
+
+      // Aktualizacja waluty kupującego
+      userBalance.currency -= cratePrice;
+      await userBalance.save({ transaction });
+
+      // Przypisanie skrzynki do kupującego
+      const crate = marketEntry.crate;
+      crate.ownerID = userID;
+      await crate.save({ transaction });
+
+      // Usunięcie wpisu z marketu
+      await marketEntry.destroy({ transaction });
+
+      // Zapisanie historii transakcji
+      await crateMarketHist.create(
+        {
+          crateID: crate.id,
+          sellerID: marketEntry.sellerID,
+          buyerID: userID,
+          price: cratePrice,
+        },
+        { transaction }
+      );
+
+      // Zatwierdzenie transakcji
+      await transaction.commit();
+
+      res.json({ message: 'Crate purchased successfully.',
+        currency: userBalance.currency,
+       });
+    } catch (err) {
+      // Cofnięcie transakcji w przypadku błędu
+      await transaction.rollback();
+      res.status(500).json({ error: err.message });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to process the transaction.' });
+  }
+});
+
+
 
 module.exports = router;

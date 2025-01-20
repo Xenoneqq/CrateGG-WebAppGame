@@ -14,7 +14,8 @@ function UserLogin(){
       });
       
       console.log(response.data);
-      localStorage.setItem("usertoken" , response.data.jwt)
+      localStorage.setItem("userid", response.data.userData.id);
+      localStorage.setItem("usertoken" , response.data.jwt);
     } catch (error) {
       console.error(error);
     }

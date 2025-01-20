@@ -1,0 +1,49 @@
+.crateOrder{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 240px;
+  padding: 5px;
+  border-radius: 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgb(64,64,64);
+  background-color: black;
+  transition: background-color 0.2s;
+  transition: border-color 0.2s;
+  user-select: none;
+}
+
+.crateOrder:hover{
+  cursor:pointer;
+  background-color: rgb(18,18,18);
+  border-color: rgb(202, 202, 202);
+}
+
+.crateName{
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.crateImage{
+  width:100px;
+  image-rendering: pixelated;
+}
+
+.buyButton{
+  background-color: rgb(32, 32, 32);
+  border-style: none;
+}
+
+.buyButton:hover{
+  background-color: darkorange;
+}
+
+.price{
+  color: orange;
+  font-size: 20px;
+  font-weight: 700;
+}

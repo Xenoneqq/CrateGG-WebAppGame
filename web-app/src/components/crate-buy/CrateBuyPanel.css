@@ -1,0 +1,77 @@
+.crateTransaction{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  position: relative;
+  box-sizing: border-box;
+  background-color: black;
+  max-width: 600px;
+  min-height: 340px;
+  width: 80%;
+  height: fit-content;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.name{
+  font-weight: 700;
+  font-size: 22px;
+  color: white;
+  text-align: center;
+}
+
+.bottomNav{
+  display: flex;
+  flex-direction: row-reverse;
+  right: 15px;
+  bottom: 15px;
+  gap:10px
+}
+
+button{
+  background-color: rgb(46, 46, 46);
+  transition: background-color 0.2s;
+}
+
+.purchase:hover{
+  background-color: orange
+}
+
+.cancel:hover{
+  background-color: orangered;
+}
+
+.crateInfoPanel{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 95%;
+  align-items: center;
+  justify-content: center;
+  gap: 20px
+}
+
+.panelCard{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  width: 200px;
+  height: 200px;
+  background-color: rgb(32, 32, 32);
+  
+  box-sizing: border-box;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.crateOwner{
+  color: rgb(57, 255, 47);
+  font-style: italic;
+}

@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const allUsersCurrency = await userCurrency.findAll();
-    res.json(allUsersCurrency);
+    res.status(200).json(allUsersCurrency);
   } catch (err) {
     res.status(500).send({ error: "Couldn't fetch users' currency balances." });
   }
@@ -20,7 +20,7 @@ router.get('/:userID', async (req, res) => {
     if (!userCurrencyData) {
       return res.status(404).send({ error: "User currency not found." });
     }
-    res.json(userCurrencyData);
+    res.status(200).json(userCurrencyData);
   } catch (err) {
     res.status(500).send({ error: "Couldn't fetch user currency." });
   }
