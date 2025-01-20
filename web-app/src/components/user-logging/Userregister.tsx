@@ -14,8 +14,15 @@ function UserRegister(){
         username: user, 
         password: password
       });
-      
       console.log(response.data);
+
+      let currencyRes = null;
+      if(response.status == 201 && response.data != null){
+        currencyRes = await axios.post('http://localhost:8080/user-currency', {
+          "userID": response.data.id,
+        })
+      }
+      console.log(currencyRes);
     } catch (error) {
       console.error(error);
     }

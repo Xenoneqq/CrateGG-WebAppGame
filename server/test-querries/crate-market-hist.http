@@ -1,0 +1,33 @@
+# Test: GET all market transactions (history)
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNzM3MzYwOTMwLCJleHAiOjE3MzczODI1MzB9.SbcJiQcaaoZYvOdZbRKk_dXplp76TG-4fQPbi02kgtk
+
+GET http://localhost:8080/market-history
+Accept: application/json
+
+###
+
+# Test: GET specific crate transaction by crateMarketHistID (replace with an actual crateMarketHistID)
+GET http://localhost:8080/market-history/id/1
+Accept: application/json
+
+###
+
+# Test: GET all market transactions for crates of a specific crateAssetID (replace with an actual crateAssetID)
+GET http://localhost:8080/market-history/crate/wooden_crate
+Accept: application/json
+
+###
+
+# Test: POST add a new transaction to the market history (replace with actual values)
+POST http://localhost:8080/market-history
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "crateID": 6,
+  "sellerID": 1,
+  "buyerID": 2,
+  "price": 500
+}
+
+###

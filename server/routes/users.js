@@ -89,4 +89,78 @@ router.post('/register', async (req,res) => {
   }
 })
 
+router.get('/', async (req, res) => {
+  try {
+    const allUsers = await users.findAll(); // Get all users
+    res.status(200).json(allUsers);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return res.status(500).json({ message: 'Error fetching users' });
+  }
+});
+
+// Get specific user by ID
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await users.findOne({ where: { id } }); // Find user by ID
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    return res.status(500).json({ message: 'Error fetching user by ID' });
+  }
+});
+
+// Update user data (PUT)
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { email, username, password } = req.body;
+
+  try {
+    const user = await users.findOne({ where: { id } });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // If password is provided, hash it
+    let hashedPassword;
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    // Update user fields
+    await user.update({
+      email: email || user.email, // Use the existing email if not provided
+      username: username || user.username, // Use the existing username if not provided
+      password: hashedPassword || user.password, // Use the existing password if not provided
+    });
+
+    res.status(200).json({ message: 'User updated successfully', user });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return res.status(500).json({ message: 'Error updating user' });
+  }
+});
+
+// Delete user (DELETE)
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await users.findOne({ where: { id } });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    await user.destroy(); // Delete the user
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return res.status(500).json({ message: 'Error deleting user' });
+  }
+});
+
 module.exports = router;
