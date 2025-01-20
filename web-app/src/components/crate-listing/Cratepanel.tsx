@@ -4,9 +4,14 @@ import Crateorder from "./Crateorder";
 import './Cratepanel.css';
 import CrateBuyPanel from "../crate-buy/CrateBuyPanel";
 
+import { useOutletContext } from "react-router-dom";
+
 function Cratepanel(){
   const [market, setMarket] = useState([]);
   const [selected, setSelected] = useState(null)
+  const [purchaseDetected, setPurchaseDetected] = useState(1);
+
+  const { updateCurrency } = useOutletContext();
 
   const getMarketData = async () => {
     try{
@@ -19,8 +24,39 @@ function Cratepanel(){
     }
   }
 
-  const purchase = () => {
-    alert('Purchased!');
+  const purchase = async () => {
+    try{
+      const token = localStorage.getItem('usertoken');
+      const userID = localStorage.getItem('userid');
+
+      if (!token || !userID) {
+        throw new Error('User is not authenticated.');
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      
+      console.log("To this point worked!")
+
+      const res = await axios.post(
+        'http://localhost:8080/market/buy',
+        { userID, marketID:selected.id },
+        config
+      );
+
+      // Obsłuż odpowiedź
+      if (res.status === 200) {
+        setSelected(null);
+        setPurchaseDetected(purchaseDetected * -1);
+        updateCurrency(res.data.currency);
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const cancelPurchase = () => {
@@ -57,7 +93,7 @@ function Cratepanel(){
 
   useEffect(() => {
     getMarketData();
-  }, [])
+  }, [purchaseDetected])
 
   const marketDisplay = market.map((entry) => {
     return(

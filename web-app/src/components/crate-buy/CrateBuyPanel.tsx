@@ -11,7 +11,7 @@ function CrateBuyPanel(props){
       <div className='name'>{crate.name}</div>
       <div className='crateInfoPanel'>
         <div className='panelCard' style={{justifyContent:'center', alignItems:'center'}}>
-          <img width={'200px'} style={{imageRendering:'pixelated'}} draggable={false} src={cratePath + crate.imagePathPatternCallback(props.cratePattern)}></img>
+          <img width={'200px'} style={{imageRendering:'pixelated', userSelect:'none'}} draggable={false} src={cratePath + crate.imagePathPatternCallback(props.cratePattern)}></img>
         </div>
         <div style={{width:'300px'}} className='panelCard'>
           <div className='crateOwner'>

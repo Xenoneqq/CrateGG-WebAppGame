@@ -12,7 +12,7 @@ const Layout = () => {
     if(loggedUser != null){
       try{
       const response = await axios.get(`http://localhost:8080/user-currency/${loggedUser}`);
-      if(response.status == 201 && response.data != null)
+      if(response.status == 200 && response.data != null)
         setCurrency(response.data.currency);
       } catch (error) {
         console.error(error);
@@ -26,6 +26,10 @@ const Layout = () => {
   useEffect(() => {
     loadCurrencyData();
   },[])
+
+  const updateCurrency = (newCurrency) => {
+    setCurrency(newCurrency);
+  };
 
   return (
     <>
@@ -48,7 +52,7 @@ const Layout = () => {
       </nav>
       <div className="navBarFiller"></div>
       
-      <Outlet />
+      <Outlet context={{updateCurrency}}/>
     </>
   )
 };
