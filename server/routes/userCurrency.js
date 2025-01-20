@@ -45,14 +45,34 @@ router.put('/:userID', authenticateToken, async (req, res) => {
 });
 
 // POST add a new user currency entry
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { userID, currency } = req.body;
-    const newUserCurrency = await userCurrency.create({ userID, currency: currency || 250 });
+
+    if (!userID) {
+      return res.status(400).send({ error: "UserID is required." });
+    }
+
+    if (currency !== undefined && typeof currency !== 'number') {
+      return res.status(400).send({ error: "Currency must be a number." });
+    }
+
+    const userExists = await users.findByPk(userID);
+    if (!userExists) {
+      return res.status(404).send({ error: "User not found." });
+    }
+
+    const newUserCurrency = await userCurrency.create({
+      userID,
+      currency: currency || 250,
+    });
+
     res.status(201).json(newUserCurrency);
   } catch (err) {
-    res.status(400).send({ error: "Couldn't create user currency entry." });
+    console.error(err);
+    res.status(500).send({ error: "Couldn't create user currency entry." });
   }
 });
 
 module.exports = router;
+

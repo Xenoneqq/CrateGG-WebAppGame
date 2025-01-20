@@ -29,7 +29,6 @@ crateMarketHist.belongsTo(users, { foreignKey: 'buyerID' });
 users.hasMany(crateMarketHist, { foreignKey: 'sellerID' });
 users.hasMany(crateMarketHist, { foreignKey: 'buyerID' });
 
-
 // user --- currency
 users.hasOne(userCurrency, { foreignKey: 'userID' });
 userCurrency.belongsTo(users, { foreignKey: 'userID' });

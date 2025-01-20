@@ -1,5 +1,5 @@
 # Test: GET all market transactions (history)
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNzM3MzI1NDI0LCJleHAiOjE3MzczNDcwMjR9.bYChLfCPWhMMpTgLJUOc2YWwR-JX48ASYPK0FaRRyVw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNzM3MzYwOTMwLCJleHAiOjE3MzczODI1MzB9.SbcJiQcaaoZYvOdZbRKk_dXplp76TG-4fQPbi02kgtk
 
 GET http://localhost:8080/market-history
 Accept: application/json
