@@ -63,14 +63,14 @@ router.get('/user/:userID', async (req, res) => {
 router.post('/', authenticateToken, async (req, res) => {
   try {
     console.log("Request Body:", req.body);
-    const { crateAssetID, patternIndex, ownerID } = req.body;
-    console.log(crateAssetID, patternIndex, ownerID)
-    if (crateAssetID === undefined || patternIndex === undefined || ownerID === undefined) {
+    const { crateAssetID, patternIndex, ownerID, name, rarity } = req.body;
+    console.log(crateAssetID, name, rarity, patternIndex, ownerID)
+    if (crateAssetID === undefined || patternIndex === undefined || ownerID === undefined || rarity === undefined || name === undefined) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     
 
-    const newCrate = await crates.create({ crateAssetID, patternIndex, ownerID });
+    const newCrate = await crates.create({ crateAssetID, name, rarity, patternIndex, ownerID });
     res.status(201).json(newCrate);
   } catch (err) {
     console.error(err);
@@ -82,7 +82,7 @@ router.post('/', authenticateToken, async (req, res) => {
 // PUT new data into an existing crate
 router.put('/:id', authenticateToken, async (req, res) => {
   try {
-    const { crateAssetID, patternIndex, ownerID} = req.body;
+    const { crateAssetID, name, rarity, patternIndex, ownerID} = req.body;
     const crate = await crates.findByPk(req.params.id);
 
     if (!crate) {
@@ -92,6 +92,8 @@ router.put('/:id', authenticateToken, async (req, res) => {
     crate.crateAssetID = crateAssetID || crate.crateAssetID;
     crate.patternIndex = patternIndex || crate.patternIndex;
     crate.ownerID = ownerID || crate.ownerID;
+    crate.name = name || crate.name;
+    crate.rarity = rarity || crate.rarity;
 
     await crate.save();
     res.json(crate);

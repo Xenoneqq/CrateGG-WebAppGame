@@ -1,5 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTczNzM4OTIwMCwiZXhwIjoxNzM3NDEwODAwfQ.8t0UUF_RJ7N3ORw1DuXL5byH6OgcMj6J5QSgBwpLTzg
-@crateId = 2
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTczNzQ1MTI4OSwiZXhwIjoxNzM3NDcyODg5fQ.ow-dcF6jOEPXBb2IS9-T-PxLYzsGNbAXQNijEVI4-nU
 
 ### Fetch All Crates
 GET http://localhost:8080/crates
@@ -20,7 +19,9 @@ Content-Type: application/json
 
 {
   "crateAssetID": "wooden_crate",
-  "patternIndex": 700,
-  "ownerID": 2
+  "name": "wooden crate",
+  "rarity": "rare",
+  "patternIndex": 756,
+  "ownerID": 1
 }
 

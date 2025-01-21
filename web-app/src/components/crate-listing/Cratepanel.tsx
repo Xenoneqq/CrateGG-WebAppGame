@@ -78,6 +78,8 @@ function Cratepanel(){
     if(selected == null) return(<></>);
     const props = {
       crateID: selected.crate.crateAssetID,
+      crateName: selected.crate.name,
+      crateRarity: selected.crate.rarity,
       cratePattern: selected.crate.patternIndex,
       price: selected.price,
       ownerName: selected.user.username,

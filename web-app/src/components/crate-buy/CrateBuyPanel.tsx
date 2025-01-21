@@ -8,7 +8,7 @@ function CrateBuyPanel(props){
   return(
     <>
     <div className='crateTransaction'>
-      <div className='name'>{crate.name}</div>
+      <div className='name'>{props.crateName}</div>
       <div className='crateInfoPanel'>
         <div className='panelCard' style={{justifyContent:'center', alignItems:'center'}}>
           <img width={'200px'} style={{imageRendering:'pixelated', userSelect:'none'}} draggable={false} src={cratePath + crate.imagePathPatternCallback(props.cratePattern)}></img>
@@ -18,7 +18,7 @@ function CrateBuyPanel(props){
             Owner : {props.ownerName}
           </div>
           <div>
-            Rarity : <b>{crate.rarity}</b> <br/>
+            Rarity : <b>{props.crateRarity}</b> <br/>
             Pattern index : <b>{props.cratePattern}</b> <br/>
             Crate type ID : <b>{crate.crateID}</b>
           </div>

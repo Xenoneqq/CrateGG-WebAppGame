@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTczNzM4OTIwMCwiZXhwIjoxNzM3NDEwODAwfQ.8t0UUF_RJ7N3ORw1DuXL5byH6OgcMj6J5QSgBwpLTzg
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTczNzQ1MTI4OSwiZXhwIjoxNzM3NDcyODg5fQ.ow-dcF6jOEPXBb2IS9-T-PxLYzsGNbAXQNijEVI4-nU
 @marketId = 3
 
 ### Crate Market - GET All Market Items
@@ -22,9 +22,9 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "crateID": 4,
-  "price": 200,
-  "sellerID": 2
+  "crateID":1,
+  "price": 245,
+  "sellerID": 1
 }
 
 ###
