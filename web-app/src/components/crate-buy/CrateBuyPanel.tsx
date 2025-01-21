@@ -5,6 +5,16 @@ const cratePath = '/crates';
 
 function CrateBuyPanel(props){
   const crate = getCrate(props.crateID);
+
+  const getRarity = (rarityNum) => {
+    switch(rarityNum){
+      case 0: return 'common'
+      case 1: return 'rare'
+      case 2: return 'legendary'
+      default: return 'undefined'
+    }
+  }
+
   return(
     <>
     <div className='crateTransaction'>
@@ -18,7 +28,7 @@ function CrateBuyPanel(props){
             Owner : {props.ownerName}
           </div>
           <div>
-            Rarity : <b>{props.crateRarity}</b> <br/>
+            Rarity : <b>{getRarity(props.crateRarity)}</b> <br/>
             Pattern index : <b>{props.cratePattern}</b> <br/>
             Crate type ID : <b>{crate.crateID}</b>
           </div>
