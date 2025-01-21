@@ -87,7 +87,6 @@ function Cratepanel(){
   const activatePanel = (transactionID) => {
     for(let i = 0; i < market.length; i++){
       if(market[i].id == transactionID){
-        console.log(market[i]);
         setSelected(market[i]);
         return;
       }

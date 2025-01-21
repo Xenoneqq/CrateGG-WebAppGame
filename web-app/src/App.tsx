@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Layout from './pages/Layout';
 import Market from './pages/Market';
+import Storage  from './pages/Storage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='/market' element={<Market/>}/>
           <Route path='/login' element={<Login />} />
+          <Route path='/storage' element={<Storage/>} />
         </Route>
       </Routes>
     </BrowserRouter>

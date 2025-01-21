@@ -9,7 +9,7 @@ GET http://localhost:8080/crates/id/{{crateId}}
 Authorization: Bearer {{token}}
 
 ### Fetch all user crates
-GET http://localhost:8080/crates/user/2
+GET http://localhost:8080/crates/user/1
 Authorization: Bearer {{token}}
 
 ### Create a New Crate
@@ -21,7 +21,7 @@ Content-Type: application/json
   "crateAssetID": "wooden_crate",
   "name": "wooden crate",
   "rarity": 0,
-  "patternIndex": 756,
+  "patternIndex": 444,
   "ownerID": 1
 }
 
