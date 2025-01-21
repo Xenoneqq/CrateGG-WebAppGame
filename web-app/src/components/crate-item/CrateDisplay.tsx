@@ -28,7 +28,7 @@ function CrateDisplay(props){
     return(
       <>
       <div style={{
-        position:'fixed', transform:'rotate(20deg)',
+        position:'absolute', transform:'rotate(20deg)',
         fontWeight:800,
         fontSize:'20px',
         color:'orange',

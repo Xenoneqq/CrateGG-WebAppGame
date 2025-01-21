@@ -7,10 +7,11 @@ import CrateInfo from "./CrateInfo";
 function CratePanel(){
   const [crates, setCrates] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [drawCrates, setDrawCrates] = useState(1);
 
   const userID = localStorage.getItem("userid");
 
-  const sellItem = () => {  
+  const closeWindow = () => {  
     setSelected(null);
   }
 
@@ -41,7 +42,11 @@ function CratePanel(){
     if (userID) {
       fetchCrates();
     }
-  }, []);
+  }, [drawCrates]);
+
+  const drawCases = () => {
+    setDrawCrates(drawCrates * -1);
+  }
 
   const cratesDisplay = crates.map((crate) => {
     return(<CrateDisplay onClick={()=>{activatePanelInfo(crate.id)}} key={crate.id} {...crate}/>)
@@ -54,17 +59,17 @@ function CratePanel(){
     }
     return(
       <div className='buyPanel'>
-      <CrateInfo {...props} {...selected} sellAction={sellItem}/>
+      <CrateInfo {...props} {...selected} closeAction={closeWindow} updateAction={drawCases}/>
       </div>
     )
   }
   
   return(
     <>
-      {displayCrateInfoPanel()}
       <div className="crateStoragePanel">
         {cratesDisplay}
       </div>
+      {displayCrateInfoPanel()}
     </>
   )
 }

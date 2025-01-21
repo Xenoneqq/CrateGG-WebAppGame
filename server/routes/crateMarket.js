@@ -278,6 +278,43 @@ router.post('/sell', authenticateToken , async (req, res) => {
   }
 });
 
+router.delete('/removeFromMarket/:crateID', authenticateToken, async (req, res) => {
+  const { crateID } = req.params;
+  const userID = req.user.id;
+  if (!crateID || !userID) {
+    console.log(crateID, userID);
+    return res.status(400).send({ error: "crateID and userID are required." });
+  }
+
+  try {
+    // 1. Check for crate on market
+    const crateMarketEntry = await crateMarket.findOne({
+      where: { crateID: crateID },
+    });
+
+    if (!crateMarketEntry) {
+      return res.status(404).send({ error: "Crate is not listed on the market." });
+    }
+
+    // 2. Check if user has crate
+    if (crateMarketEntry.sellerID !== userID && req.user.role !== 'admin'){
+      return res.status(403).send({ error: "You do not own this crate." });
+    }
+
+    // 3. Remove crate from market
+    await crateMarket.destroy({
+      where: { crateID: crateID },
+    });
+
+    res.status(200).send({ message: "Crate removed from market successfully." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: "Couldn't remove crate from the market." });
+  }
+});
+
+
+
 
 
 

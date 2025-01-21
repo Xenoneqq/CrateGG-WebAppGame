@@ -26,6 +26,7 @@ function CrateInfo(props){
   }
   const user = localStorage.getItem("userid");
   const token = localStorage.getItem("usertoken");
+  
   const setupOrder = async (price) => {
     try {
       const response = await axios.post('http://localhost:8080/market/sell', {
@@ -42,9 +43,29 @@ function CrateInfo(props){
       console.error(error);
     }
     
-    props.sellAction();
+    props.updateAction();
+    props.closeAction();
     setVisible(false);
   }
+
+  const removeCrateFromMarket = async (crateID) => {
+    const token = localStorage.getItem('usertoken');
+  
+    try {
+      const response = await axios.delete(`http://localhost:8080/market/removeFromMarket/${crateID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    props.closeAction();
+    props.updateAction();
+    setVisible(false);
+  };
 
   const backToItem = () => {
     setOfferWindow(false);
@@ -61,6 +82,31 @@ function CrateInfo(props){
     }
     return(<></>)
   }
+
+  const onMarket = () => {
+    return (props.crateMarkets != null && props.crateMarkets.length != 0)
+  }
+
+  const checkActionButton = () => {
+    if(onMarket()){
+      return(
+        <>
+        <button onClick={() => {removeCrateFromMarket(props.id)}} className='purchase'>
+              Remove from market
+        </button>
+        </>
+      )
+    }
+    return(
+      <>
+      <button onClick={openOfferWindow} className='purchase'>
+            Sell on market
+      </button>
+      </>
+    )
+  }
+
+  console.log(props);
 
   const renderWindow = () => {
     if(visible){
@@ -84,9 +130,7 @@ function CrateInfo(props){
             <button onClick={props.cancle} className='cancel'>
               Close
             </button>
-            <button onClick={openOfferWindow} className='purchase'>
-              Sell
-            </button>
+            {checkActionButton()}
           </div>
         </div>
       </>
