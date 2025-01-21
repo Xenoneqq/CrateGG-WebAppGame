@@ -2,6 +2,7 @@ const express = require('express');
 const { crateMarket, crateMarketHist, crates, users , sequelize, userCurrency } = require('../database.js');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router();
+const { Sequelize, Op  } = require('sequelize');
 
 // GET all crate market listings
 router.get('/', async (req, res) => {
@@ -57,6 +58,68 @@ router.get('/type/:crateAssetID', async (req, res) => {
     res.status(500).send({ error: "Couldn't fetch crates of this type from the market." });
   }
 });
+
+// GET with sorting options
+router.get('/search', async (req, res) => {
+  const { name, rarity, orderby, direction = 'DESC' } = req.query;
+
+  console.log('Search name:', name);
+  console.log('Order by:', orderby);
+  console.log('Sort direction:', direction);
+
+  try {
+    const whereConditions = {};
+
+    if (name) {
+      whereConditions['$crate.name$'] = {
+        [Op.like]: `%${name}%`,
+      };
+    }
+    
+    if (rarity) {
+      whereConditions['$crate.rarity$'] = parseInt(rarity, 10); // Konwersja na liczbę
+    }
+    
+    const order = [];
+    
+    if (orderby) {
+      if (orderby === 'price' || orderby === 'rarity' || orderby === 'createdAt') {
+        const directionValid = direction.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+        // Jeżeli sortowanie po rzadkości, używaj crate.rarity
+        if (orderby === 'rarity') {
+          order.push([Sequelize.col('crate.rarity'), directionValid]);
+        } else {
+          order.push([orderby, directionValid]);
+        }
+      } else {
+        return res.status(400).send({ error: 'Invalid orderby parameter.' });
+      }
+    }
+    
+
+    const cratesResult = await crateMarket.findAll({
+      where: whereConditions,
+      order,
+      include: [
+        {
+          model: users,
+          attributes: ['id', 'username', 'email'],
+        },
+        {
+          model: crates,
+        },
+      ],
+    });
+
+    res.json(cratesResult);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: 'Failed to search crates.' });
+  }
+});
+
+
+
 
 // POST a new crate listing in the market
 router.post('/', authenticateToken, async (req, res) => {

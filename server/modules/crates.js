@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     rarity:{
-      type:DataTypes.STRING,
+      type:DataTypes.INTEGER,
       allowNull: false,
     },
     patternIndex: {
@@ -35,3 +35,7 @@ module.exports = (sequelize) => {
 
   return crates;
 }
+
+// common - 0
+// rare - 1
+// legendary - 2

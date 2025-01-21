@@ -20,7 +20,7 @@ Content-Type: application/json
 {
   "crateAssetID": "wooden_crate",
   "name": "wooden crate",
-  "rarity": "rare",
+  "rarity": 0,
   "patternIndex": 756,
   "ownerID": 1
 }
