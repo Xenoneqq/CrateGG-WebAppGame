@@ -23,8 +23,29 @@ function CrateDisplay(props){
     }
   }
 
+  const onMarketMessage = () => {
+    if(props.crateMarkets == null || props.crateMarkets.length == 0) return(<></>);
+    return(
+      <>
+      <div style={{
+        position:'fixed', transform:'rotate(20deg)',
+        fontWeight:800,
+        fontSize:'20px',
+        color:'orange',
+        opacity:0.66,
+        }}>
+        ON MARKET
+      </div>
+      </>
+    )
+  }
+
   return(
-    <div onClick={props.onClick} className="itemCard">
+    <div
+     onClick={props.onClick} className="itemCardStorage"
+     style={
+      props.crateMarkets != null && props.crateMarkets.length != 0 ? { border: '2px solid orange' } : {}}
+     >
       <div style={{color:(color(props.patternIndex))}} className='itemName'>{props.name}</div>
       <div>
         <img draggable={false} className='crateImageItem' src={cratePath + crate.imagePathPatternCallback(props.patternIndex)}></img>
@@ -32,6 +53,7 @@ function CrateDisplay(props){
       <div>
         Pattern : {props.patternIndex}
       </div>
+      {onMarketMessage()}
     </div>
   )
 }

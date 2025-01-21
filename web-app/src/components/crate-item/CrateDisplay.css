@@ -1,4 +1,4 @@
-.itemCard{
+.itemCardStorage{
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -18,7 +18,7 @@
   transition: border-color 0.2s;
 }
 
-.itemCard:hover{
+.itemCardStorage:hover{
   cursor:pointer;
   background-color: rgb(18,18,18);
   border-color: rgb(202, 202, 202);

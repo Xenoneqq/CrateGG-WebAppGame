@@ -237,6 +237,48 @@ router.post('/buy', authenticateToken, async (req, res) => {
   }
 });
 
+// POST Setting up a sell order
+router.post('/sell', authenticateToken , async (req, res) => {
+  const { crateID, userID, price } = req.body;
+
+  // 1. Checking the variables
+  if (!crateID || !userID || typeof price !== 'number' || price <= 0) {
+    console.log(crateID, userID, price)
+    return res.status(400).send({ error: 'Invalid input. Crate ID, User ID, and valid price are required.' });
+  }
+
+  try {
+    // 2. Check if not allready on server
+    const existingMarketEntry = await crateMarket.findOne({ where: { crateID } });
+    if (existingMarketEntry) {
+      return res.status(400).send({ error: 'This crate is already listed on the market.' });
+    }
+
+    // 3. Check if in possesion
+    const userCrate = await crates.findOne({ where: { id: crateID, ownerID: userID } });
+    if (!userCrate) {
+      return res.status(403).send({ error: 'You do not own this crate or it does not exist.' });
+    }
+
+    // 4. Put it out onto market
+    const newMarketEntry = await crateMarket.create({
+      crateID,
+      sellerID: userID,
+      price,
+      createdAt: new Date(),
+    });
+
+    res.status(201).send({
+      message: 'Crate successfully listed on the market.',
+      marketEntry: newMarketEntry,
+    });
+  } catch (err) {
+    console.error('Error listing crate on the market:', err);
+    res.status(500).send({ error: 'Failed to list crate on the market. Please try again later.' });
+  }
+});
+
+
 
 
 module.exports = router;

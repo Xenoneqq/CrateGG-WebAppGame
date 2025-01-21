@@ -1,5 +1,5 @@
 const express = require('express')
-const { crates, users } = require('../database.js');
+const { crates, users, crateMarket } = require('../database.js');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router()
 
@@ -31,7 +31,7 @@ router.get('/id/:crateID', async (req, res) => {
 
 // GET all crates owned by a user with userID
 router.get('/user/:userID', async (req, res) => {
-  const { userID } = req.params;  // Destrukturalizowanie userID
+  const { userID } = req.params;
 
   if (!userID) {
     return res.status(400).send({ error: "UserID is required." });
@@ -39,10 +39,45 @@ router.get('/user/:userID', async (req, res) => {
 
   try {
     const userCrates = await crates.findAll({
-      where: { ownerID: userID },  // Używamy userID z req.params
+      where: { ownerID: userID },
       include: [
-        { model: users, attributes: ['id', 'username'] }  // Możesz załączyć tylko wybrane pola z modelu users
+        { model: users, attributes: ['id', 'username'] }
       ]
+    });
+
+    if (userCrates.length === 0) {
+      return res.status(404).send({ error: "No crates found for this user." });
+    }
+
+    res.json(userCrates);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: "Couldn't fetch user crates." });
+  }
+});
+
+// GET all crates owned by a user with userID including market info
+router.get('/userandmarket/:userID', async (req, res) => {
+  const { userID } = req.params;
+  console.log("fetched from crates")
+  if (!userID) {
+    return res.status(400).send({ error: "UserID is required." });
+  }
+
+  try {
+    const userCrates = await crates.findAll({
+      where: { ownerID: userID },
+      include: [
+        { 
+          model: users, 
+          attributes: ['id', 'username'],
+        },
+        { 
+          model: crateMarket,
+          attributes: ['id', 'price', 'createdAt'],
+          required: false,
+        },
+      ],
     });
 
     if (userCrates.length === 0) {

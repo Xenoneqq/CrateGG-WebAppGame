@@ -10,10 +10,13 @@ function CratePanel(){
 
   const userID = localStorage.getItem("userid");
 
+  const sellItem = () => {  
+    setSelected(null);
+  }
+
   const fetchCrates = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/crates/user/${userID}`);
-      console.log(response.data)
+      const response = await axios.get(`http://localhost:8080/crates/userandmarket/${userID}`);
       setCrates(response.data);
     } catch (err) {
       console.error("Error fetching crates:", err);
@@ -51,7 +54,7 @@ function CratePanel(){
     }
     return(
       <div className='buyPanel'>
-      <CrateInfo {...props}/>
+      <CrateInfo {...props} {...selected} sellAction={sellItem}/>
       </div>
     )
   }
