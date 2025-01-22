@@ -3,12 +3,15 @@ import CrateSellPanel from '../crate-sell/crateSellPanel';
 import './CrateInfo.css'
 import getCrate from '../../assets/crates/crateData';
 import axios from 'axios';
+import CrateOpenPanel from '../crate-open/CrateOpenPanel';
+import CratePanel from './CratePanel';
 
 const cratePath = '/crates';
 
 function CrateInfo(props){
   const [visible, setVisible] = useState(true);
   const [offerWindow, setOfferWindow] = useState(false);
+  const [openWindow, setOpenWindow] = useState(false);
 
   const crate = getCrate(props.crateAssetID);
   const getRarity = (rarityNum) => {
@@ -24,6 +27,12 @@ function CrateInfo(props){
     setOfferWindow(true);
     setVisible(false);
   }
+
+  const openOpeningWindow = () => {
+    setOpenWindow(true);
+    setVisible(false);
+  }
+
   const user = localStorage.getItem("userid");
   const token = localStorage.getItem("usertoken");
   
@@ -48,6 +57,32 @@ function CrateInfo(props){
     setVisible(false);
   }
 
+  const OpenCrate = async () => {
+    console.log('Opening crate with ID:', props.id);
+
+    try {
+      const token = localStorage.getItem('usertoken');
+  
+      const response = await axios.post(
+        'http://localhost:8080/crates/openCrate',
+        { crateID: props.id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      console.log('Crate opened successfully:', response.data);
+      props.updateAction();
+      backToItem();
+      props.closeAction();
+      setVisible(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const removeCrateFromMarket = async (crateID) => {
     const token = localStorage.getItem('usertoken');
   
@@ -69,6 +104,7 @@ function CrateInfo(props){
 
   const backToItem = () => {
     setOfferWindow(false);
+    setOpenWindow(false);
     setVisible(true);
   }
 
@@ -77,6 +113,19 @@ function CrateInfo(props){
       return(
       <>
         <CrateSellPanel {...props} sellOrder={setupOrder} back={backToItem}/>
+      </>
+      )
+    }
+    return(<></>)
+  }
+
+  const drawOpenWindow = () => {
+    const crateImage = (cratePath + crate.imagePathPatternCallback(props.patternIndex));
+    
+    if(openWindow){
+      return(
+      <>
+        <CrateOpenPanel crateImage={crateImage} {...props} openOrder={OpenCrate} back={backToItem}/>
       </>
       )
     }
@@ -106,8 +155,6 @@ function CrateInfo(props){
     )
   }
 
-  console.log(props);
-
   const renderWindow = () => {
     if(visible){
     return(
@@ -130,6 +177,9 @@ function CrateInfo(props){
             <button onClick={props.cancle} className='cancel'>
               Close
             </button>
+            <button onClick={openOpeningWindow} className='cancel'>
+              Open Crate
+            </button>
             {checkActionButton()}
           </div>
         </div>
@@ -143,6 +193,7 @@ function CrateInfo(props){
     <>
       {renderWindow()}
       {drawOfferWindow()}
+      {drawOpenWindow()}
     </>
   )
 }

@@ -27,19 +27,21 @@ function GetPattern(){
 }
 
 function Draw(dropPool, odds){
-  const sum = 0;
+  let sum = 0;
   odds.map((odd) => {sum += odd})
-  let rand = Math.random() * sum;
+  let rand = Math.floor(Math.random() * sum);
   let id = 0;
+  console.log(sum, rand);
   while(rand > 0){
-    rand -= odds[i];
+    rand -= odds[id];
     if(rand <= 0) return dropPool[id];
-
+    id += 1;
   } 
 }
 
 function wooden_crate(){
   const wooden_crate_pool = [
+    null,
     {crate:'wooden_crate', name:'wooden crate', rarity:0},
     {crate:'iron_crate', name:'iron crate',rarity:0},
     {crate:'reinforced_crate',name:'reinforced crate',rarity:0},
@@ -48,10 +50,12 @@ function wooden_crate(){
   ]
 
   const odds = [
-    30,10,10,10,3
+    30,30,10,10,10,3
   ]
   
   const pick = Draw(wooden_crate_pool, odds);
+
+  if(pick == null) return null;
 
   const crate = {
     patternIndex: (GetPattern()),

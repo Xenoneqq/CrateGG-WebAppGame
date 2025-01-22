@@ -1,5 +1,5 @@
 const express = require('express')
-const { crates, users, crateMarket } = require('../database.js');
+const { crates, users, crateMarket, sequelize } = require('../database.js');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router()
 const OpenCrate = require('../logic/crateOpener.js');
@@ -160,45 +160,56 @@ router.post('/openCrate', authenticateToken, async (req, res) => {
   const { crateID } = req.body;
   const userID = req.user.id;
 
+  const transaction = await sequelize.transaction();
+
   try {
     // 1. Check for crate
     const userCrate = await crates.findOne({
       where: { id: crateID, ownerID: userID },
+      transaction,
     });
 
     if (!userCrate) {
+      await transaction.rollback();
       return res.status(404).json({ error: "Crate not found or not owned by user." });
     }
 
     // 2. Remove crate from market
     await crateMarket.destroy({
       where: { crateID },
+      transaction,
     });
 
-    // 3. Set onwerID to null
-    await userCrate.update({ ownerID: null });
+    // 3. Set ownerID to null
+    await userCrate.update({ ownerID: null }, { transaction });
 
     // 4. Get crate drops
-    const newCrates = OpenCrate(userCrate.crateAssetID);
+    let newCrates = OpenCrate(userCrate.crateAssetID);
+    newCrates = newCrates.filter(crate => crate != null);
 
+    console.log(newCrates);
     // 5. Add new crates to database
     const createdCrates = await Promise.all(
       newCrates.map(crate => {
         return crates.create({
           ...crate,
           ownerID: userID,
-        });
+        }, { transaction });
       })
     );
+
+    await transaction.commit();
 
     res.status(201).json({
       message: "Crate opened successfully!",
       newCrates: createdCrates,
     });
   } catch (error) {
+    await transaction.rollback();
     console.error("Error opening crate:", error);
     res.status(500).json({ error: "Failed to open crate." });
   }
 });
+
 
 module.exports = router;
