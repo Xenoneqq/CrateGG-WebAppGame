@@ -1,0 +1,18 @@
+--- GŁÓWNE ---
+
+username: MatUU
+password: matuu123
+
+username: admin
+password: admin123
+
+--- TESTOWE ---
+
+username: tester
+password: tester123
+
+username: test
+password: test123
+
+username: test2
+password: test123

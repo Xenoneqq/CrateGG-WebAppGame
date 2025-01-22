@@ -193,4 +193,34 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+
+const secretPassword = "dwasomm312kfmsah821omrfas09q32jrim2jrnoakf039qr3jqrkwnfriq3"
+// PUT: Update user to admin if password is correct
+router.put('/make-admin/:id', async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body
+
+  // Check if the provided password is correct
+  if (password !== secretPassword) {
+    return res.status(403).json({ error: 'Forbidden: Incorrect password' });
+  }
+
+  try {
+    const user = await users.findOne({ where: { id } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.isAdmin = true;
+    await user.save();
+
+    res.json({ message: `User with ID ${id} is now an admin.` });
+  } catch (err) {
+    console.error('Error making user admin:', err);
+    res.status(500).json({ error: 'Failed to update user' });
+  }
+});
+
+
 module.exports = router;

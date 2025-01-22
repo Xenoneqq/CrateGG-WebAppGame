@@ -7,9 +7,8 @@ const getFreeCrates = () => {
 
 }
 
-function AddFreeCrates(){
+function AddFreeCrates(props){
   const [free, setFree] = useState(-1);
-  
   const fetchCrateData = async () => {
     try {
       const token = localStorage.getItem("usertoken");
@@ -18,13 +17,28 @@ function AddFreeCrates(){
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.woodenCratesCount);
       setFree(response.data.woodenCratesCount);
     } catch (error) {
       console.error(error);
       setFree(-1);
     }
   };
+
+  const getFreeCrates = async () => {
+    try {
+      const token = localStorage.getItem("usertoken");
+      const response = await axios.post("http://localhost:8080/crates/add-wooden-crates", {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      props.drawCases();
+      setFree(-1);
+    } catch (error) {
+      console.error("Error adding wooden crates:", error);
+      alert("Failed to add wooden crates.");
+    }
+  }
 
   fetchCrateData()
 
@@ -35,9 +49,10 @@ function AddFreeCrates(){
   return (
     <>
     <div
+      onClick={getFreeCrates}
      className="itemCardStorage"
      >
-      <div className='itemName'>Free Crates?</div>
+      <div className='itemName'>Free Crates</div>
       <div>
         <img draggable={false} className='crateImageItem' src={'/sprites/free.png'}></img>
       </div>

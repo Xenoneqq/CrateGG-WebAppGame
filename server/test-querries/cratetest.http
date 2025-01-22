@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTczNzU0MDMwOSwiZXhwIjoxNzM3NTYxOTA5fQ.-U1RzxbsxOP-E63JP8MErjMDZ5bSZqo_9Vz_IyrieyA
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoiTWF0VVUiLCJpYXQiOjE3Mzc1ODIyMTAsImV4cCI6MTczNzYwMzgxMH0.otKuY5Ik_qhZhQ2gJgt0OkpXLvtehLRUV12UxXhi-TQ
 
 ### Fetch All Crates
 GET http://localhost:8080/crates

@@ -287,5 +287,46 @@ router.get('/wooden-crates', authenticateToken, async (req, res) => {
   }
 });
 
+// POST add wooden crates if count is 0
+router.post('/add-wooden-crates', authenticateToken, async (req, res) => {
+  const { user } = req;
+
+  try {
+    // Check the count of wooden crates
+    const woodenCratesCount = await crates.count({
+      where: {
+        ownerID: user.id,
+        crateAssetID: 'wooden_crate',
+      },
+    });
+
+    // If the user has 0 wooden crates, add 5 new wooden crates
+    if (woodenCratesCount === 0) {
+      const newCrates = [];
+      for (let i = 0; i < 5; i++) {
+        const patternIndex = Math.floor(Math.random() * 501);
+        newCrates.push({
+          ownerID: user.id,
+          crateAssetID: 'wooden_crate',
+          name: 'wooden crate',
+          rarity: 0,
+          patternIndex: patternIndex,
+        });
+      }
+
+      // Insert the new crates into the database
+      await crates.bulkCreate(newCrates);
+
+      res.json({ message: '5 wooden crates added to your account.' });
+    } else {
+      res.json({ message: `You already have ${woodenCratesCount} wooden crates.` });
+    }
+  } catch (err) {
+    console.error('Error adding wooden crates:', err);
+    res.status(500).json({ error: 'Failed to add wooden crates.' });
+  }
+});
+
+
 
 module.exports = router;

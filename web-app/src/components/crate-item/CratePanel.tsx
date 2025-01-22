@@ -136,7 +136,7 @@ function CratePanel(){
       </div>
 
       <div className="crateStoragePanel">
-        <AddFreeCrates/>
+        <AddFreeCrates drawCases={drawCases}/>
         {cratesDisplay}
       </div>
       {displayCrateInfoPanel()}
