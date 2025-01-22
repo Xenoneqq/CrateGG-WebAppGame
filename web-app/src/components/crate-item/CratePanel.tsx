@@ -3,6 +3,7 @@ import axios from "axios";
 import CrateDisplay from "./CrateDisplay";
 import './CratePanel.css'
 import CrateInfo from "./CrateInfo";
+import AddFreeCrates from "./AddFreeCrates";
 
 function CratePanel(){
   const [crates, setCrates] = useState([]);
@@ -135,6 +136,7 @@ function CratePanel(){
       </div>
 
       <div className="crateStoragePanel">
+        <AddFreeCrates/>
         {cratesDisplay}
       </div>
       {displayCrateInfoPanel()}

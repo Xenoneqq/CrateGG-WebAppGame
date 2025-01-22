@@ -268,7 +268,24 @@ router.get('/filtered', async (req, res) => {
   }
 });
 
+// GET count of wooden crates
+router.get('/wooden-crates', authenticateToken, async (req, res) => {
+  const { user } = req; // `user` is added by `authenticateToken`
 
+  try {
+    const woodenCratesCount = await crates.count({
+      where: {
+        ownerID: user.id,
+        crateAssetID: 'wooden_crate',
+      },
+    });
+
+    res.json({ woodenCratesCount });
+  } catch (err) {
+    console.error('Error fetching wooden crates count:', err);
+    res.status(500).json({ error: 'Failed to fetch wooden crates count.' });
+  }
+});
 
 
 module.exports = router;
