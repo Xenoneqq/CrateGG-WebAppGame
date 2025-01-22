@@ -26,7 +26,7 @@ function UserLogin(){
     <>
     <div style={{display:"flex", flexDirection:"column",alignItems:'center', justifyContent:'center', gap:"20px"}}>
 
-    <h2>Login to your account</h2>
+    <h2>Sign into your Account</h2>
     <div>
       username or mail<br/>
       <input
@@ -46,6 +46,7 @@ function UserLogin(){
     </div>
     <div>
       <button
+      className="loginInButton"
       onClick={handlelogin}
       >Login</button>
     </div>

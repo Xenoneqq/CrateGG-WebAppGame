@@ -23,6 +23,7 @@ function UserRegister(){
         })
       }
       console.log(currencyRes);
+      window.location.href = '/login?isUser=1'
       
     } catch (error) {
       console.error(error);
@@ -61,6 +62,7 @@ function UserRegister(){
     </div>
     <div>
       <button
+      className="loginInButton"
       onClick={handlelogin}
       >Login</button>
     </div>
