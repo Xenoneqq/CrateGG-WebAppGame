@@ -2,6 +2,7 @@ const express = require('express')
 const { crates, users, crateMarket } = require('../database.js');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router()
+const OpenCrate = require('../logic/crateOpener.js');
 
 // GET all crates from database
 router.get('/', async (req, res) => {
@@ -151,6 +152,52 @@ router.delete('/:id', authenticateToken , async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send({ error: "Couldn't delete the crate" });
+  }
+});
+
+// POST Opening a crate
+router.post('/openCrate', authenticateToken, async (req, res) => {
+  const { crateID } = req.body;
+  const userID = req.user.id;
+
+  try {
+    // 1. Check for crate
+    const userCrate = await crates.findOne({
+      where: { id: crateID, ownerID: userID },
+    });
+
+    if (!userCrate) {
+      return res.status(404).json({ error: "Crate not found or not owned by user." });
+    }
+
+    // 2. Remove crate from market
+    await crateMarket.destroy({
+      where: { crateID },
+    });
+
+    // 3. Set onwerID to null
+    await userCrate.update({ ownerID: null });
+
+    // 4. Get crate drops
+    const newCrates = OpenCrate(userCrate.crateAssetID);
+
+    // 5. Add new crates to database
+    const createdCrates = await Promise.all(
+      newCrates.map(crate => {
+        return crates.create({
+          ...crate,
+          ownerID: userID,
+        });
+      })
+    );
+
+    res.status(201).json({
+      message: "Crate opened successfully!",
+      newCrates: createdCrates,
+    });
+  } catch (error) {
+    console.error("Error opening crate:", error);
+    res.status(500).json({ error: "Failed to open crate." });
   }
 });
 
