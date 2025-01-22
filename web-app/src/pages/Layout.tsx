@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 const Layout = () => {
   
   const [currency, setCurrency] = useState(0);
+  const [user, setUser] = useState(null);
 
   const loadCurrencyData = async () => {
     const loggedUser = localStorage.getItem("userid");
@@ -31,6 +32,59 @@ const Layout = () => {
     setCurrency(newCurrency);
   };
 
+  const isLoggedIn = async () => {
+    const token = localStorage.getItem('usertoken'); // Pobierz token z localStorage
+    let response;
+    try {
+      response = await axios.get('http://localhost:8080/users/verifyUser', {
+        headers: {
+          Authorization: `Bearer ${token}`, // Przekaż token w nagłówku
+        },
+      });
+  
+      console.log('User verified:', response.data.user);
+      setUser(response.data.user.username);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+    return response.data.user;
+  };
+  isLoggedIn();
+
+  const logOutUser = () => {
+    localStorage.removeItem("usertoken");
+    localStorage.removeItem("userid");
+    bringToLoginSite();
+  }
+
+  const bringToLoginSite = () => {
+    window.location.href = '/login'
+  }
+
+  const displayUserInfo = () => {
+    if(user === null || user === undefined){
+      return(
+        <>
+        <div>
+          <button onClick={bringToLoginSite} className="userLoginButton">LOG IN</button>
+        </div>
+        <div className="accountOwner">GUEST</div>
+        <div>•</div>
+        </>
+      )
+    }
+    return(
+      <>
+      <div>
+        <button onClick={logOutUser} className="userLoginButton">LOG OUT</button>
+      </div>
+      <div className="accountOwner">{user}</div>
+      <div>•</div>
+      </>
+    )
+  }
+
   return (
     <>
       <nav className="appNavBar">
@@ -38,6 +92,9 @@ const Layout = () => {
           <Link to="/" className="logo">
           Crate.GG</Link>
         </div>
+
+        {displayUserInfo()}
+
         <div>
           <Link to="/storage" className="navlink">
           storage</Link>
@@ -46,8 +103,14 @@ const Layout = () => {
           <Link to="/market" className="navlink">
           market</Link>
         </div>
-        <div className="currency">
+
+        <div className="currency navbarLeft">
           {currency} CC
+        </div>
+        <div className="currency navbarRight">
+          <div>
+          {currency} CC
+          </div>
         </div>
       </nav>
       <div className="navBarFiller"></div>

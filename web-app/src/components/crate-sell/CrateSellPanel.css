@@ -1,0 +1,44 @@
+.crateSellingPanel{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  max-width: 260px;
+  padding: 40px;
+  width: 80%;
+  background-color: black;
+  gap:20px;
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  color: white;
+}
+
+.panelSellOption{
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panelSellInput{
+  height: fit-content;
+  font-weight: 500;
+  font-size: 20px;
+  text-align: center;
+  width: 176px;
+}
+
+.sellPanelButton{
+  transition: background-color 0.1s;
+}
+
+.sellPanelButton:hover{
+  background-color: rgb(22, 22, 22);
+}

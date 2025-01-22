@@ -2,6 +2,7 @@ const express = require('express');
 const { crateMarket, crateMarketHist, crates, users , sequelize, userCurrency } = require('../database.js');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router();
+const { Sequelize, Op  } = require('sequelize');
 
 // GET all crate market listings
 router.get('/', async (req, res) => {
@@ -57,6 +58,68 @@ router.get('/type/:crateAssetID', async (req, res) => {
     res.status(500).send({ error: "Couldn't fetch crates of this type from the market." });
   }
 });
+
+// GET with sorting options
+router.get('/search', async (req, res) => {
+  const { name, rarity, orderby, direction = 'DESC' } = req.query;
+
+  console.log('Search name:', name);
+  console.log('Order by:', orderby);
+  console.log('Sort direction:', direction);
+
+  try {
+    const whereConditions = {};
+
+    if (name) {
+      whereConditions['$crate.name$'] = {
+        [Op.like]: `%${name}%`,
+      };
+    }
+    
+    if (rarity) {
+      whereConditions['$crate.rarity$'] = parseInt(rarity, 10); // Konwersja na liczbę
+    }
+    
+    const order = [];
+    
+    if (orderby) {
+      if (orderby === 'price' || orderby === 'rarity' || orderby === 'createdAt') {
+        const directionValid = direction.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+        // Jeżeli sortowanie po rzadkości, używaj crate.rarity
+        if (orderby === 'rarity') {
+          order.push([Sequelize.col('crate.rarity'), directionValid]);
+        } else {
+          order.push([orderby, directionValid]);
+        }
+      } else {
+        return res.status(400).send({ error: 'Invalid orderby parameter.' });
+      }
+    }
+    
+
+    const cratesResult = await crateMarket.findAll({
+      where: whereConditions,
+      order,
+      include: [
+        {
+          model: users,
+          attributes: ['id', 'username', 'email'],
+        },
+        {
+          model: crates,
+        },
+      ],
+    });
+
+    res.json(cratesResult);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: 'Failed to search crates.' });
+  }
+});
+
+
+
 
 // POST a new crate listing in the market
 router.post('/', authenticateToken, async (req, res) => {
@@ -173,6 +236,85 @@ router.post('/buy', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Failed to process the transaction.' });
   }
 });
+
+// POST Setting up a sell order
+router.post('/sell', authenticateToken , async (req, res) => {
+  const { crateID, userID, price } = req.body;
+
+  // 1. Checking the variables
+  if (!crateID || !userID || typeof price !== 'number' || price <= 0) {
+    console.log(crateID, userID, price)
+    return res.status(400).send({ error: 'Invalid input. Crate ID, User ID, and valid price are required.' });
+  }
+
+  try {
+    // 2. Check if not allready on server
+    const existingMarketEntry = await crateMarket.findOne({ where: { crateID } });
+    if (existingMarketEntry) {
+      return res.status(400).send({ error: 'This crate is already listed on the market.' });
+    }
+
+    // 3. Check if in possesion
+    const userCrate = await crates.findOne({ where: { id: crateID, ownerID: userID } });
+    if (!userCrate) {
+      return res.status(403).send({ error: 'You do not own this crate or it does not exist.' });
+    }
+
+    // 4. Put it out onto market
+    const newMarketEntry = await crateMarket.create({
+      crateID,
+      sellerID: userID,
+      price,
+      createdAt: new Date(),
+    });
+
+    res.status(201).send({
+      message: 'Crate successfully listed on the market.',
+      marketEntry: newMarketEntry,
+    });
+  } catch (err) {
+    console.error('Error listing crate on the market:', err);
+    res.status(500).send({ error: 'Failed to list crate on the market. Please try again later.' });
+  }
+});
+
+router.delete('/removeFromMarket/:crateID', authenticateToken, async (req, res) => {
+  const { crateID } = req.params;
+  const userID = req.user.id;
+  if (!crateID || !userID) {
+    console.log(crateID, userID);
+    return res.status(400).send({ error: "crateID and userID are required." });
+  }
+
+  try {
+    // 1. Check for crate on market
+    const crateMarketEntry = await crateMarket.findOne({
+      where: { crateID: crateID },
+    });
+
+    if (!crateMarketEntry) {
+      return res.status(404).send({ error: "Crate is not listed on the market." });
+    }
+
+    // 2. Check if user has crate
+    if (crateMarketEntry.sellerID !== userID && req.user.role !== 'admin'){
+      return res.status(403).send({ error: "You do not own this crate." });
+    }
+
+    // 3. Remove crate from market
+    await crateMarket.destroy({
+      where: { crateID: crateID },
+    });
+
+    res.status(200).send({ message: "Crate removed from market successfully." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: "Couldn't remove crate from the market." });
+  }
+});
+
+
+
 
 
 

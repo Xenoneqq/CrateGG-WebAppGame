@@ -10,13 +10,13 @@ function Crateorder(props){
   
   const color = (rarity) => {
     switch(rarity){
-      case "common":{
+      case 0:{
         return 'white';
       }
-      case "rare":{
+      case 1:{
         return 'cyan';
       }
-      case "legendary":{
+      case 2:{
         return 'red';
       }
       default:{
@@ -28,7 +28,7 @@ function Crateorder(props){
   return(
     <>
     <div onClick={props.onClick} className="crateOrder">
-      <div className='crateName' style={{color: color(crate.rarity)}}>{crate.name}</div>
+      <div className='crateName' style={{color: color(crateDB.rarity)}}>{crateDB.name}</div>
       <img className="crateImage" src={cratePath + crate.imagePathPatternCallback(crateDB.patternIndex)} draggable={false}></img>
       <div className='price'>{offer.price} CC</div>
     </div>

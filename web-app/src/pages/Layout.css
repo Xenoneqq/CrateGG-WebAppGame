@@ -8,7 +8,7 @@
   height: 35px;
   width: 100%;
   padding: 10px;
-  padding-top: 25px;
+  padding-top: 28px;
   padding-bottom: 25px;
   background-color: black;
   margin-left: -10px;
@@ -34,6 +34,38 @@
   font-size: 24px;
 }
 
+.accountOwner{
+  font-size: 18px;
+  font-weight: 500;
+}
+
+@media only screen and (max-width: 500px) {
+  .logo{
+    display: none;
+    visibility: hidden;
+  }
+
+  .navbarRight{
+    display: none;
+  }
+
+  .navbarLeft{
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 500px){
+  .navbarRight{
+    position:fixed;
+    right: 15px;
+    display: block;
+  }
+
+  .navbarLeft{
+    display: none;
+  }
+}
+
 .navlink{
   text-decoration: none;
   font-weight: 500;
@@ -42,10 +74,18 @@
 }
 
 .currency{
-  position: fixed;
-  right: 15px;
-  text-align: right;
   font-weight: 600;
   font-size: 20px;
   color: gold;
+}
+
+.userLoginButton{
+  height: 30px;
+  padding: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.userLoginButton:hover{
+  background-color: rgb(57, 255, 47);
 }

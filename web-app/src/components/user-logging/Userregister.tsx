@@ -23,6 +23,7 @@ function UserRegister(){
         })
       }
       console.log(currencyRes);
+      
     } catch (error) {
       console.error(error);
     }

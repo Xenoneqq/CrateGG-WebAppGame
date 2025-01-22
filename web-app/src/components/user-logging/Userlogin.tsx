@@ -16,6 +16,7 @@ function UserLogin(){
       console.log(response.data);
       localStorage.setItem("userid", response.data.userData.id);
       localStorage.setItem("usertoken" , response.data.jwt);
+      window.location.href = '/storage'
     } catch (error) {
       console.error(error);
     }
