@@ -40,16 +40,15 @@ function CratePanel(){
   }
 
   const fetchCrates = async () => {
-    const token = localStorage.getItem("usertoken");
     // Extract userID from the URL query parameters
-    const params = new URLSearchParams(window.location.search);
-    const userID = params.get("userID");
+    let userID = new URLSearchParams(window.location.search).get("userID");
+    
+    if(userID === undefined || userID === null){
+      userID = localStorage.getItem("userid");
+    }
 
     try {
       const response = await axios.get("http://localhost:8080/crates/filtered", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
         params: {
           userID,
           name: name || undefined,
@@ -73,7 +72,7 @@ function CratePanel(){
     if (userID) {
       fetchCrates();
     }
-  }, [drawCrates]);
+  }, [drawCrates, rarityFilter,name,order,sortDirection]);
 
   const drawCases = () => {
     setDrawCrates(drawCrates * -1);

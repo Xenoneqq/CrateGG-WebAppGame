@@ -1,5 +1,6 @@
 const express = require('express')
 const { crates, users, crateMarket, sequelize } = require('../database.js');
+const { Sequelize, Op  } = require('sequelize');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router()
 const OpenCrate = require('../logic/crateOpener.js');
@@ -216,26 +217,12 @@ router.post('/openCrate', authenticateToken, async (req, res) => {
 // GET crates with filters (user crates + optional market info)
 router.get('/filtered', async (req, res) => {
   const { userID: queryUserID, name, rarity, order, sortDirection } = req.query;
-  const token = req.headers['authorization']?.split(' ')[1];
-  let userID = null;
-
-  // Decode token if provided
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, JWT_SECRET);
-      userID = decoded.id;
-    } catch (err) {
-      console.warn('Invalid token, skipping user crates.');
-    }
-  }
-
+  
   // Use userID from query if provided
-  if (queryUserID) {
-    userID = queryUserID;
-  }
+  let userID = queryUserID;
 
-  if(userID === undefined || userID === null){
-    return res.status(404).json({error:'No userID was passed'});
+  if (!userID) {
+    return res.status(404).json({ error: 'No userID was passed' });
   }
 
   // Prepare filter conditions
@@ -280,6 +267,7 @@ router.get('/filtered', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch crates.' });
   }
 });
+
 
 
 
