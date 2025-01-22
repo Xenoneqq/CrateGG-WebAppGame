@@ -10,13 +10,13 @@ function Crateorder(props){
   
   const color = (rarity) => {
     switch(rarity){
-      case "common":{
+      case 0:{
         return 'white';
       }
-      case "rare":{
+      case 1:{
         return 'cyan';
       }
-      case "legendary":{
+      case 2:{
         return 'red';
       }
       default:{

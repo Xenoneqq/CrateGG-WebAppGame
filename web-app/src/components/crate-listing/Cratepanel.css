@@ -24,9 +24,11 @@
 .searchOptions{
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 10px;
   width: 100%;
-  height: 20px;
+  height: fit-content;
+  min-height: 20px;
   padding: 5px;
   margin-top: 10px;
   margin-bottom: 10px;

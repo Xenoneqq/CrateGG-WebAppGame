@@ -2,6 +2,7 @@ const express = require('express')
 const { users } = require('../database.js');
 const router = express.Router()
 const bcrypt = require('bcrypt');
+const authenticateToken = require('../middleware/auth.js');
 
 // jwt setup
 const jwt = require('jsonwebtoken');
@@ -52,6 +53,35 @@ router.post('/login', async (req,res) => {
     return res.status(500).json({ message: 'Error searching for user' });
   }
 })
+
+// GET Checking the user
+router.get('/verifyUser', authenticateToken, async (req, res) => {
+  try {
+    const userID = req.user.id;
+
+    if(userID === undefined){
+      return res.status(404).json({error: "User not logged in."});
+    }
+
+    const user = await users.findOne({ where: { id: userID } });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res.json({
+      message: "User verified successfully.",
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    console.error("Error verifying user:", err);
+    res.status(500).json({ error: "Failed to verify user." });
+  }
+});
 
 router.post('/register', async (req,res) => {
   const {email, username, password} = req.body;

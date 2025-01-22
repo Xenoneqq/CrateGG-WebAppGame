@@ -127,30 +127,41 @@ function Cratepanel(){
     <>
     {displayPanel()}
     <div className="searchOptions">
+      <div>
+      Search by Name <br/>
       <input className="inputPanels"
       value={name}
       onChange={(e) => setName(e.target.value)}
       >
       </input>
-      
+      </div>
+
+      <div>
+      Rarity <br/>
       <select className="selectPanels" onChange={(e) => setRarityFilter(e.target.value)}>
         <option value="">All</option>
         <option value="0">Common</option>
         <option value="1">Rare</option>
         <option value="2">Legendary</option>
       </select>
+      </div>
 
+      <div>
+      Order by <br/>
       <select className="selectPanels" onChange={(e) => setOrder(e.target.value)}>
         <option value="0">Newest</option>
         <option value="1">Price</option>
         <option value="2">Rarity</option>
       </select>
+      </div>
 
-
+      <div>
+      Direction <br/>
       <select className="selectPanels" onChange={(e) => setSortDirection(e.target.value)}>
         <option value="0">DESCENDING</option>
         <option value="1">ASCENDING</option>
       </select>
+      </div>
     </div>
     <div className="crateMarket">
     {marketDisplay}

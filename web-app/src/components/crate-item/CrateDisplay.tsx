@@ -8,13 +8,13 @@ function CrateDisplay(props){
   
   const color = (rarity) => {
     switch(rarity){
-      case "common":{
+      case 0:{
         return 'white';
       }
-      case "rare":{
+      case 1:{
         return 'cyan';
       }
-      case "legendary":{
+      case 2:{
         return 'red';
       }
       default:{
@@ -46,7 +46,7 @@ function CrateDisplay(props){
      style={
       props.crateMarkets != null && props.crateMarkets.length != 0 ? { border: '2px solid orange' } : {}}
      >
-      <div style={{color:(color(props.patternIndex))}} className='itemName'>{props.name}</div>
+      <div style={{color:(color(props.rarity))}} className='itemName'>{props.name}</div>
       <div>
         <img draggable={false} className='crateImageItem' src={cratePath + crate.imagePathPatternCallback(props.patternIndex)}></img>
       </div>

@@ -14,21 +14,21 @@ const cratesDatabase:[crate] = [
   {
     crateID:'iron_crate',
     imagePathPatternCallback:(pattern:number) => {
-      return '/iron/crate_' + Math.floor(pattern/200) + '.png';
+      return '/iron/crate_' + Math.floor(pattern/300) + '.png';
     }
   },
   {
     crateID:'reinforced_crate',
     imagePathPatternCallback:(pattern:number) => {
       if(pattern == 333 || pattern == 456 || pattern > 995) return '/reinforced/r_reinforced.png';
-      return '/reinforced/crate_' + Math.floor(pattern/500) + '.png';
+      return '/reinforced/crate_' + Math.floor(pattern/400) + '.png';
     }
   },
   {
     crateID:'old_crate',
     imagePathPatternCallback:(pattern:number) => {
       if(pattern > 190 && pattern < 200) return '/old_crate/r_old_crate.png';
-      return '/old_crate/crate_' + Math.floor(pattern/300) + '.png';
+      return '/old_crate/crate_' + Math.floor(pattern/501) + '.png';
     }
   },
   {
