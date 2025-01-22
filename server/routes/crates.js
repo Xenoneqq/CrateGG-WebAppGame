@@ -3,6 +3,8 @@ const { crates, users, crateMarket, sequelize } = require('../database.js');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router()
 const OpenCrate = require('../logic/crateOpener.js');
+const JWT_SECRET = require('../secrets.js');
+
 
 // GET all crates from database
 router.get('/', async (req, res) => {
@@ -210,6 +212,75 @@ router.post('/openCrate', authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Failed to open crate." });
   }
 });
+
+// GET crates with filters (user crates + optional market info)
+router.get('/filtered', async (req, res) => {
+  const { userID: queryUserID, name, rarity, order, sortDirection } = req.query;
+  const token = req.headers['authorization']?.split(' ')[1];
+  let userID = null;
+
+  // Decode token if provided
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      userID = decoded.id;
+    } catch (err) {
+      console.warn('Invalid token, skipping user crates.');
+    }
+  }
+
+  // Use userID from query if provided
+  if (queryUserID) {
+    userID = queryUserID;
+  }
+
+  if(userID === undefined || userID === null){
+    return res.status(404).json({error:'No userID was passed'});
+  }
+
+  // Prepare filter conditions
+  const whereConditions = {};
+  if (name) {
+    whereConditions.name = { [Op.like]: `%${name}%` };
+  }
+  if (rarity) {
+    whereConditions.rarity = rarity;
+  }
+
+  try {
+    // Fetch crates
+    const cratesList = await crates.findAll({
+      where: userID ? { ownerID: userID, ...whereConditions } : whereConditions,
+      include: [
+        {
+          model: crateMarket, // Join with crateMarket
+          required: false,    // Only include if a record exists
+        },
+      ],
+    });
+
+    // Sort crates
+    const sortingOptions = {
+      '0': 'createdAt',
+      '1': 'price',
+      '2': 'rarity',
+    };
+    const sortField = sortingOptions[order] || 'createdAt';
+    const sortDir = sortDirection === '1' ? 'ASC' : 'DESC';
+
+    const sortedCrates = cratesList.sort((a, b) => {
+      if (a[sortField] < b[sortField]) return sortDir === 'ASC' ? -1 : 1;
+      if (a[sortField] > b[sortField]) return sortDir === 'ASC' ? 1 : -1;
+      return 0;
+    });
+
+    res.json(sortedCrates);
+  } catch (err) {
+    console.error('Error fetching crates:', err);
+    res.status(500).json({ error: 'Failed to fetch crates.' });
+  }
+});
+
 
 
 module.exports = router;
