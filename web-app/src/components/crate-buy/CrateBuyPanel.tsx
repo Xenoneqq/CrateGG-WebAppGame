@@ -15,6 +15,17 @@ function CrateBuyPanel(props){
     }
   }
 
+  const drawPurchaseButton = () => {
+    if(props.sellerID == localStorage.getItem("userid")) return(<></>);
+    return(
+      <>
+      <button onClick={props.purchase} className='purchase'>
+          BUY for {props.price} CC
+        </button>
+      </>
+    )
+  }
+
   return(
     <>
     <div className='crateTransaction'>
@@ -42,9 +53,7 @@ function CrateBuyPanel(props){
         <button onClick={props.close} className='cancel'>
           Close
         </button>
-        <button onClick={props.purchase} className='purchase'>
-          BUY for {props.price} CC
-        </button>
+        {drawPurchaseButton()}
       </div>
     </div>
     </>

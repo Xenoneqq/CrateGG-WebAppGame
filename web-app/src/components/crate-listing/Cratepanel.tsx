@@ -94,6 +94,7 @@ function Cratepanel(){
     setSelected(null);
   }
 
+  console.log(selected);
   const displayPanel = () => {
     if(selected == null) return(<></>);
     const props = {
@@ -103,6 +104,7 @@ function Cratepanel(){
       cratePattern: selected.crate.patternIndex,
       price: selected.price,
       ownerName: selected.user.username,
+      sellerID: selected.sellerID,
       close: cancelPurchase,
       purchase: purchase,
     }
