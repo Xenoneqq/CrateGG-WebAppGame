@@ -32,20 +32,32 @@ router.post('/login', async (req,res) => {
       return res.status(400).json({ message: 'Wrong username or password' });
     }
 
+    const getRole = () => {
+      if(userData.isAdmin) return 'admin'
+      else return 'player'
+    }
+
     // Generate JWT token
     const token = jwt.sign(
       {
         id: userData.id,
-        role: 'player',
+        role: getRole(),
         username: userData.username,
       },
       JWT_SECRET,
       { expiresIn: '6h' }
     );
     
+    const userPublicData = {
+      id:userData.id,
+      username:userData.username,
+      email:userData.email,
+      role:getRole(),
+    }
+
     // logging in as user
     console.log('User found:', userData);
-    res.json({ message: `User ${username} found`, userData, jwt:`${token}` });
+    res.json({ message: `User ${username} found`, userData:userPublicData, jwt:`${token}` });
     
     
   } catch (error) {

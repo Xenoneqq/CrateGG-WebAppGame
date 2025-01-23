@@ -25,12 +25,27 @@ function Crateorder(props){
     }
   }
 
+  const displayDiscardButton = () => {
+    const userID = localStorage.getItem("userid");
+    //console.log(role, userID)
+    if(props.sellerID != userID) return (<></>);
+    
+    return(
+      <>
+      <div 
+      className='yourListingInfo'
+      >YOUR<br/>LISTING</div>
+      </>
+    )
+  }
+
   return(
     <>
     <div onClick={props.onClick} className="crateOrder">
       <div className='crateName' style={{color: color(crateDB.rarity)}}>{crateDB.name}</div>
       <img className="crateImage" src={cratePath + crate.imagePathPatternCallback(crateDB.patternIndex)} draggable={false}></img>
       <div className='price'>{offer.price} CC</div>
+      {displayDiscardButton()}
     </div>
     </>
   )

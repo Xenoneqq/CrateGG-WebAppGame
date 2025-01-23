@@ -26,6 +26,20 @@ function CrateBuyPanel(props){
     )
   }
 
+  const drawRemoveButton = () => {
+    const role = localStorage.getItem("userrole");
+    if(props.sellerID != localStorage.getItem("userid")
+      && role != 'admin') return(<></>);
+
+    return(
+      <>
+      <button onClick={props.remove} className='purchase'>
+          Remove from market
+        </button>
+      </>
+    )
+  }
+
   return(
     <>
     <div className='crateTransaction'>
@@ -54,6 +68,7 @@ function CrateBuyPanel(props){
           Close
         </button>
         {drawPurchaseButton()}
+        {drawRemoveButton()}
       </div>
     </div>
     </>

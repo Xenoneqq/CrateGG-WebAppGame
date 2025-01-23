@@ -22,11 +22,6 @@ function Cratepanel(){
   const getMarketData = async () => {
     const queryParams = [];
   
-    // Sprawdzanie wartości
-    console.log('Order:', order);
-    console.log('Rarity Filter:', rarityFilter);
-    console.log('Name:', name);
-  
     if (name) queryParams.push(`name=${encodeURIComponent(name)}`);
     if (rarityFilter) queryParams.push(`rarity=${rarityFilter}`);
     if (order) {
@@ -39,7 +34,6 @@ function Cratepanel(){
   
     try {
       const response = await axios.get(`http://localhost:8080/market/search${queryString}`);
-      console.log(response.data);
       setMarket(response.data);
     } catch (error) {
       console.error('Error fetching market data:', error);
@@ -80,7 +74,25 @@ function Cratepanel(){
     }
   }
 
-  const cancelPurchase = () => {
+  const removeListing = async (crateID) => {
+    const token = localStorage.getItem('usertoken');
+  
+    try {
+      const response = await axios.delete(`http://localhost:8080/market/removeFromMarket/${crateID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setSelected(null);
+    setPurchaseDetected(purchaseDetected * -1);
+  };
+
+  const cancelPurchase = async () => {
     setSelected(null);
   }
 
@@ -107,6 +119,7 @@ function Cratepanel(){
       sellerID: selected.sellerID,
       close: cancelPurchase,
       purchase: purchase,
+      remove: () => {removeListing(selected.crate.id)},
     }
     return(
       <div className='buyPanel'>
@@ -127,7 +140,6 @@ function Cratepanel(){
 
   return(
     <>
-    {displayPanel()}
     <div className="searchOptions">
       <div>
       Search by Name <br/>
@@ -167,6 +179,7 @@ function Cratepanel(){
     </div>
     <div className="crateMarket">
     {marketDisplay}
+    {displayPanel()}
     </div>
     </>
   )

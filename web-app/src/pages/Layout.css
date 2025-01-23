@@ -1,5 +1,6 @@
 .appNavBar{
   position: fixed;
+  z-index: 999;
   display: flex;
   flex-direction: row;
   gap:20px;
