@@ -15,6 +15,31 @@ function CrateBuyPanel(props){
     }
   }
 
+  const drawPurchaseButton = () => {
+    if(props.sellerID == localStorage.getItem("userid")) return(<></>);
+    return(
+      <>
+      <button onClick={props.purchase} className='purchase'>
+          BUY for {props.price} CC
+        </button>
+      </>
+    )
+  }
+
+  const drawRemoveButton = () => {
+    const role = localStorage.getItem("userrole");
+    if(props.sellerID != localStorage.getItem("userid")
+      && role != 'admin') return(<></>);
+
+    return(
+      <>
+      <button onClick={props.remove} className='purchase'>
+          Remove from market
+        </button>
+      </>
+    )
+  }
+
   return(
     <>
     <div className='crateTransaction'>
@@ -42,9 +67,8 @@ function CrateBuyPanel(props){
         <button onClick={props.close} className='cancel'>
           Close
         </button>
-        <button onClick={props.purchase} className='purchase'>
-          BUY for {props.price} CC
-        </button>
+        {drawPurchaseButton()}
+        {drawRemoveButton()}
       </div>
     </div>
     </>

@@ -32,20 +32,32 @@ router.post('/login', async (req,res) => {
       return res.status(400).json({ message: 'Wrong username or password' });
     }
 
+    const getRole = () => {
+      if(userData.isAdmin) return 'admin'
+      else return 'player'
+    }
+
     // Generate JWT token
     const token = jwt.sign(
       {
         id: userData.id,
-        role: 'player',
+        role: getRole(),
         username: userData.username,
       },
       JWT_SECRET,
       { expiresIn: '6h' }
     );
     
+    const userPublicData = {
+      id:userData.id,
+      username:userData.username,
+      email:userData.email,
+      role:getRole(),
+    }
+
     // logging in as user
     console.log('User found:', userData);
-    res.json({ message: `User ${username} found`, userData, jwt:`${token}` });
+    res.json({ message: `User ${username} found`, userData:userPublicData, jwt:`${token}` });
     
     
   } catch (error) {
@@ -192,5 +204,35 @@ router.delete('/:id', async (req, res) => {
     return res.status(500).json({ message: 'Error deleting user' });
   }
 });
+
+
+const secretPassword = "dwasomm312kfmsah821omrfas09q32jrim2jrnoakf039qr3jqrkwnfriq3"
+// PUT: Update user to admin if password is correct
+router.put('/make-admin/:id', async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body
+
+  // Check if the provided password is correct
+  if (password !== secretPassword) {
+    return res.status(403).json({ error: 'Forbidden: Incorrect password' });
+  }
+
+  try {
+    const user = await users.findOne({ where: { id } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.isAdmin = true;
+    await user.save();
+
+    res.json({ message: `User with ID ${id} is now an admin.` });
+  } catch (err) {
+    console.error('Error making user admin:', err);
+    res.status(500).json({ error: 'Failed to update user' });
+  }
+});
+
 
 module.exports = router;

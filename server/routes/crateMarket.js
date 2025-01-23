@@ -165,6 +165,7 @@ router.get('/alldata', async (req, res) => {
 
 // Purchasing the crate
 
+// Purchasing the crate
 router.post('/buy', authenticateToken, async (req, res) => {
   const { userID, marketID } = req.body;
   console.log(req.body);
@@ -190,17 +191,39 @@ router.post('/buy', authenticateToken, async (req, res) => {
       }
 
       const cratePrice = marketEntry.price;
+      const sellerID = marketEntry.sellerID; // Pobierz ID sprzedawcy
 
-      // Pobranie waluty gracza
+      // Sprawdzenie, czy użytkownik próbuje kupić swoją własną skrzynkę
+      if (sellerID == userID) {
+        throw new Error("You cannot buy your own crate.");
+      }
+
+      // Pobranie waluty kupującego
       const userBalance = await userCurrency.findOne({ where: { userID }, transaction });
 
       if (!userBalance || userBalance.currency < cratePrice) {
         throw new Error('Not enough currency to buy the crate.');
       }
 
+      // Pobranie waluty sprzedającego
+      const sellerBalance = await userCurrency.findOne({ where: { userID: sellerID }, transaction });
+
+      if (!sellerBalance) {
+        throw new Error('Seller does not have a currency account.');
+      }
+
       // Aktualizacja waluty kupującego
-      userBalance.currency -= cratePrice;
+      userBalance.currency = parseInt(userBalance.currency) - parseInt(cratePrice);
       await userBalance.save({ transaction });
+
+      console.log('seller balance : ' , sellerBalance)
+      console.log(cratePrice);
+
+      // Aktualizacja waluty sprzedającego
+      sellerBalance.currency = parseInt(sellerBalance.currency) + parseInt(cratePrice);
+      await sellerBalance.save({ transaction });
+
+      console.log('seller balance after : ' , sellerBalance)
 
       // Przypisanie skrzynki do kupującego
       const crate = marketEntry.crate;
@@ -214,7 +237,7 @@ router.post('/buy', authenticateToken, async (req, res) => {
       await crateMarketHist.create(
         {
           crateID: crate.id,
-          sellerID: marketEntry.sellerID,
+          sellerID,
           buyerID: userID,
           price: cratePrice,
         },
@@ -224,9 +247,10 @@ router.post('/buy', authenticateToken, async (req, res) => {
       // Zatwierdzenie transakcji
       await transaction.commit();
 
-      res.json({ message: 'Crate purchased successfully.',
+      res.json({
+        message: 'Crate purchased successfully.',
         currency: userBalance.currency,
-       });
+      });
     } catch (err) {
       // Cofnięcie transakcji w przypadku błędu
       await transaction.rollback();
@@ -236,6 +260,7 @@ router.post('/buy', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Failed to process the transaction.' });
   }
 });
+
 
 // POST Setting up a sell order
 router.post('/sell', authenticateToken , async (req, res) => {

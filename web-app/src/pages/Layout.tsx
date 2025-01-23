@@ -59,7 +59,7 @@ const Layout = () => {
   }
 
   const bringToLoginSite = () => {
-    window.location.href = '/login'
+    window.location.href = '/login?isUser=1'
   }
 
   const displayUserInfo = () => {

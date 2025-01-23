@@ -1,8 +1,11 @@
 const express = require('express')
 const { crates, users, crateMarket, sequelize } = require('../database.js');
+const { Sequelize, Op  } = require('sequelize');
 const authenticateToken = require('../middleware/auth');
 const router = express.Router()
 const OpenCrate = require('../logic/crateOpener.js');
+const JWT_SECRET = require('../secrets.js');
+
 
 // GET all crates from database
 router.get('/', async (req, res) => {
@@ -210,6 +213,120 @@ router.post('/openCrate', authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Failed to open crate." });
   }
 });
+
+// GET crates with filters (user crates + optional market info)
+router.get('/filtered', async (req, res) => {
+  const { userID: queryUserID, name, rarity, order, sortDirection } = req.query;
+  
+  // Use userID from query if provided
+  let userID = queryUserID;
+
+  if (!userID) {
+    return res.status(404).json({ error: 'No userID was passed' });
+  }
+
+  // Prepare filter conditions
+  const whereConditions = {};
+  if (name) {
+    whereConditions.name = { [Op.like]: `%${name}%` };
+  }
+  if (rarity) {
+    whereConditions.rarity = rarity;
+  }
+
+  try {
+    // Fetch crates
+    const cratesList = await crates.findAll({
+      where: userID ? { ownerID: userID, ...whereConditions } : whereConditions,
+      include: [
+        {
+          model: crateMarket, // Join with crateMarket
+          required: false,    // Only include if a record exists
+        },
+      ],
+    });
+
+    // Sort crates
+    const sortingOptions = {
+      '0': 'createdAt',
+      '1': 'price',
+      '2': 'rarity',
+    };
+    const sortField = sortingOptions[order] || 'createdAt';
+    const sortDir = sortDirection === '1' ? 'ASC' : 'DESC';
+
+    const sortedCrates = cratesList.sort((a, b) => {
+      if (a[sortField] < b[sortField]) return sortDir === 'ASC' ? -1 : 1;
+      if (a[sortField] > b[sortField]) return sortDir === 'ASC' ? 1 : -1;
+      return 0;
+    });
+
+    res.json(sortedCrates);
+  } catch (err) {
+    console.error('Error fetching crates:', err);
+    res.status(500).json({ error: 'Failed to fetch crates.' });
+  }
+});
+
+// GET count of wooden crates
+router.get('/wooden-crates', authenticateToken, async (req, res) => {
+  const { user } = req; // `user` is added by `authenticateToken`
+
+  try {
+    const woodenCratesCount = await crates.count({
+      where: {
+        ownerID: user.id,
+        crateAssetID: 'wooden_crate',
+      },
+    });
+
+    res.json({ woodenCratesCount });
+  } catch (err) {
+    console.error('Error fetching wooden crates count:', err);
+    res.status(500).json({ error: 'Failed to fetch wooden crates count.' });
+  }
+});
+
+// POST add wooden crates if count is 0
+router.post('/add-wooden-crates', authenticateToken, async (req, res) => {
+  const { user } = req;
+
+  try {
+    // Check the count of wooden crates
+    const woodenCratesCount = await crates.count({
+      where: {
+        ownerID: user.id,
+        crateAssetID: 'wooden_crate',
+      },
+    });
+
+    // If the user has 0 wooden crates, add 5 new wooden crates
+    if (woodenCratesCount === 0) {
+      const newCrates = [];
+      for (let i = 0; i < 5; i++) {
+        const patternIndex = Math.floor(Math.random() * 501);
+        newCrates.push({
+          ownerID: user.id,
+          crateAssetID: 'wooden_crate',
+          name: 'wooden crate',
+          rarity: 0,
+          patternIndex: patternIndex,
+        });
+      }
+
+      // Insert the new crates into the database
+      await crates.bulkCreate(newCrates);
+
+      res.json({ message: '5 wooden crates added to your account.' });
+    } else {
+      res.json({ message: `You already have ${woodenCratesCount} wooden crates.` });
+    }
+  } catch (err) {
+    console.error('Error adding wooden crates:', err);
+    res.status(500).json({ error: 'Failed to add wooden crates.' });
+  }
+});
+
 
 
 module.exports = router;

@@ -35,7 +35,35 @@ const cratesDatabase:[crate] = [
     crateID:'golden_crate',
     imagePathPatternCallback:(pattern:number) => {
       if(pattern == 999) return '/golden_crate/r_golden_crate.png';
-      return '/golden_crate/crate_' + Math.floor(pattern/400) + '.png';
+      return '/golden_crate/crate_' + Math.floor(pattern/501) + '.png';
+    }
+  },
+  {
+    crateID:'refined_crate',
+    imagePathPatternCallback:(pattern:number) => {
+      return '/refined/crate_' + Math.floor(pattern/315) + '.png';
+    }
+  },
+  {
+    crateID:'grass_crate',
+    imagePathPatternCallback:(pattern:number) => {
+      if(pattern >= 230 && pattern <= 255)
+        return '/grass/r_grass_crate'
+      return '/grass/crate_' + Math.floor(pattern/501) + '.png';
+    }
+  },
+  {
+    crateID:'magical_crate',
+    imagePathPatternCallback:(pattern:number) => {
+      if(pattern >= 666 && pattern <= 676)
+        return '/magical/r_magical_crate'
+      return '/magical/crate_' + Math.floor(pattern/501) + '.png';
+    }
+  },
+  {
+    crateID:'magma_crate',
+    imagePathPatternCallback:(pattern:number) => {
+      return '/magma/crate_' + Math.floor(pattern/201) + '.png';
     }
   },
 ]
