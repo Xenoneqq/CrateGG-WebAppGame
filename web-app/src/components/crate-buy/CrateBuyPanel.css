@@ -75,3 +75,12 @@ button{
   color: rgb(57, 255, 47);
   font-style: italic;
 }
+
+.ownerLinkButton{
+  user-select: none;
+  
+}
+
+.ownerLinkButton:hover{
+  cursor: pointer;
+}

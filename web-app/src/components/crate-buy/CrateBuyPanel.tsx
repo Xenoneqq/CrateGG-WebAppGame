@@ -40,6 +40,10 @@ function CrateBuyPanel(props){
     )
   }
 
+  const takeToOwnersSite = (ownerID) => {
+    window.location.href = '/storage?userID=' + ownerID; 
+  }
+
   return(
     <>
     <div className='crateTransaction'>
@@ -49,7 +53,8 @@ function CrateBuyPanel(props){
           <img width={'200px'} style={{imageRendering:'pixelated', userSelect:'none'}} draggable={false} src={cratePath + crate.imagePathPatternCallback(props.cratePattern)}></img>
         </div>
         <div style={{width:'300px'}} className='panelCard'>
-          <div className='crateOwner'>
+          <div onClick={() => {takeToOwnersSite(props.sellerID)}}
+          className='crateOwner ownerLinkButton'>
             Owner : {props.ownerName}
           </div>
           <div>

@@ -1,0 +1,7 @@
+### Zapytanie o admina dla UserID
+PUT http://localhost:8080/users/make-admin/5
+Content-Type: application/json
+
+{
+  "password": "dwasomm312kfmsah821omrfas09q32jrim2jrnoakf039qr3jqrkwnfriq3"
+}
