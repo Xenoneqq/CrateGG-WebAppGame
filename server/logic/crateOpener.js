@@ -6,6 +6,9 @@ function OpenCrate(crateID){
     case 'magical_crate':{
       return [Open(crateID), Open(crateID), Open(crateID)]
     }
+    case 'magma_crate':{
+      return [Open(crateID), Open(crateID), Open(crateID),Open(crateID),Open(crateID)]
+    }
     default:{
       return [Open(crateID)];
     }

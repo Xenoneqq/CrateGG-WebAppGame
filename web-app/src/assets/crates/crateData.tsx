@@ -35,7 +35,7 @@ const cratesDatabase:[crate] = [
     crateID:'golden_crate',
     imagePathPatternCallback:(pattern:number) => {
       if(pattern == 999) return '/golden_crate/r_golden_crate.png';
-      return '/golden_crate/crate_' + Math.floor(pattern/400) + '.png';
+      return '/golden_crate/crate_' + Math.floor(pattern/501) + '.png';
     }
   },
   {
