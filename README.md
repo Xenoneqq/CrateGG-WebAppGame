@@ -1,4 +1,4 @@
-# Crate.GG: A Simulation Project for Virtual Crates and Marketplace
+# Crate.GG: MarketPlace Simulation WebApp Project
 
 <img src="/docs/img/logo.png" alt="Crate.GG Logo" width="100%" />
 
