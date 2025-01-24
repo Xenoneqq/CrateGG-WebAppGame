@@ -6,6 +6,9 @@ password: matuu123
 username: admin
 password: admin123
 
+username: FunnEDUD
+password: funeedud
+
 --- TESTOWE ---
 
 username: tester

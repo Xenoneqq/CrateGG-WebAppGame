@@ -125,7 +125,6 @@ function moderate_crate(){
     ['golden_crate' , 20],
     ['refined_crate' , 15],
     ['grass_crate' , 15],
-    ['corrupted_crate' , 10],
     ['magical_crate' , 10],
     ['magma_crate' , 5],
   ]
