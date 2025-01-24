@@ -1,6 +1,7 @@
 const express = require('express');
 const { userCurrency, users } = require('../database.js');
-const authenticateToken = require('../middleware/auth');
+const authenticateToken = require('../middleware/auth.js');
+const authenticateTokenAdmin = require('../middleware/adminauth.js');
 const router = express.Router();
 
 // GET all users' currency balances
@@ -27,7 +28,7 @@ router.get('/:userID', async (req, res) => {
 });
 
 // PUT update a user's currency balance
-router.put('/:userID', authenticateToken, async (req, res) => {
+router.put('/:userID', authenticateTokenAdmin, async (req, res) => {
   try {
     const { currency } = req.body;
     const userCurrencyData = await userCurrency.findOne({ where: { userID: req.params.userID } });

@@ -13,11 +13,11 @@ function UserLogin(){
         password: password
       });
       
-      console.log(response.data);
       localStorage.setItem("userid", response.data.userData.id);
       localStorage.setItem("userrole",response.data.userData.role)
       localStorage.setItem("usertoken" , response.data.jwt);
       window.location.href = '/storage'
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }

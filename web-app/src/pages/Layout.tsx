@@ -25,6 +25,7 @@ const Layout = () => {
   }
 
   useEffect(() => {
+    console.log({'userJWTToken':localStorage.getItem('usertoken')});
     loadCurrencyData();
   },[])
 
@@ -41,8 +42,6 @@ const Layout = () => {
           Authorization: `Bearer ${token}`, // Przekaż token w nagłówku
         },
       });
-  
-      console.log('User verified:', response.data.user);
       setUser(response.data.user.username);
     } catch (error) {
       console.error(error);
@@ -102,6 +101,10 @@ const Layout = () => {
         <div>
           <Link to="/market" className="navlink">
           market</Link>
+        </div>
+        <div>
+          <Link to="/trades" className="navlink">
+          trade history</Link>
         </div>
 
         <div className="currency navbarLeft">

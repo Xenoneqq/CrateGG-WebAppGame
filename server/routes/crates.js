@@ -2,6 +2,7 @@ const express = require('express')
 const { crates, users, crateMarket, sequelize } = require('../database.js');
 const { Sequelize, Op  } = require('sequelize');
 const authenticateToken = require('../middleware/auth');
+const authenticateTokenAdmin = require('../middleware/adminauth.js');
 const router = express.Router()
 const OpenCrate = require('../logic/crateOpener.js');
 const JWT_SECRET = require('../secrets.js');
@@ -99,7 +100,7 @@ router.get('/userandmarket/:userID', async (req, res) => {
 
 
 // POST a new crate to the database
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', authenticateTokenAdmin, async (req, res) => {
   try {
     console.log("Request Body:", req.body);
     const { crateAssetID, patternIndex, ownerID, name, rarity } = req.body;
@@ -119,7 +120,7 @@ router.post('/', authenticateToken, async (req, res) => {
 
 
 // PUT new data into an existing crate
-router.put('/:id', authenticateToken, async (req, res) => {
+router.put('/:id', authenticateTokenAdmin, async (req, res) => {
   try {
     const { crateAssetID, name, rarity, patternIndex, ownerID} = req.body;
     const crate = await crates.findByPk(req.params.id);
@@ -143,7 +144,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
 });
 
 // DELETE a crate
-router.delete('/:id', authenticateToken , async (req, res) => {
+router.delete('/:id', authenticateTokenAdmin , async (req, res) => {
   try {
     const crate = await crates.findByPk(req.params.id);
     if (!crate) {

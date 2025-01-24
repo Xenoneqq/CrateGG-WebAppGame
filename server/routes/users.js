@@ -3,6 +3,7 @@ const { users } = require('../database.js');
 const router = express.Router()
 const bcrypt = require('bcrypt');
 const authenticateToken = require('../middleware/auth.js');
+const authenticateTokenAdmin = require('../middleware/adminauth.js');
 
 // jwt setup
 const jwt = require('jsonwebtoken');
@@ -157,7 +158,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update user data (PUT)
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticateTokenAdmin, async (req, res) => {
   const { id } = req.params;
   const { email, username, password } = req.body;
 
@@ -188,7 +189,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete user (DELETE)
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticateTokenAdmin, async (req, res) => {
   const { id } = req.params;
 
   try {
