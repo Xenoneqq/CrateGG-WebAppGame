@@ -1,4 +1,7 @@
 # Crate.GG: A Simulation Project for Virtual Crates and Marketplace
+
+<img src="/docs/img/logo.png" alt="Crate.GG Logo" width="100%" />
+
 <p>
 <b>Crate.GG</b> is a web-based project designed to simulate a marketplace for virtual collectible crates. The project allows users to collect, trade, and open crates in a fully functional ecosystem. It includes features for user account management, marketplace interactions, and crate inventory systems. 
 </p>
@@ -26,7 +29,7 @@ Crate.GG provides the following core functionalities:
 - **Trade Market History:** A detailed list showcasing all transactions associated with the user, including both purchases and sales.
 - **Admin Privileges:** Admins have the ability to remove crates from the market without the consent of the users who own them.
 
-![Crate.GG trade history photo](/docs/img/crategg_2.png)
+<img src="/docs/img/crategg_2.png" alt="Crate.GG Logo" width="100%" />
 
 ## Technologies Used
 The project is built with a modern tech stack for both the frontend and backend:
