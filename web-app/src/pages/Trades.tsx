@@ -14,6 +14,7 @@ function Trades(){
   
       if (!token) {
         console.error('Token not found. Please log in.');
+        alert("Log in first to see trade history");
         return;
       }
   
@@ -29,6 +30,7 @@ function Trades(){
       setListings(response.data);
       return response.data; // Możesz zwrócić dane do dalszego wykorzystania
     } catch (error) {
+      alert(error.response.data.message);
       console.error('Error fetching market history:', error.response?.data || error.message);
     }
   };

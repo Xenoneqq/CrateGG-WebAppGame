@@ -49,6 +49,7 @@ function CrateInfo(props){
       });
       console.log('Crate listed successfully:', response.data);
     } catch (error) {
+      alert(error.response.data.message);
       console.error(error);
     }
     
@@ -81,6 +82,7 @@ function CrateInfo(props){
       props.openedCrates(response.data.newCrates)
       props.showDrops(true);
     } catch (error) {
+      alert(error.response.data.message);
       console.error(error);
     }
   }

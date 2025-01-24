@@ -62,6 +62,7 @@ function CratePanel(){
       });
       setCrates(response.data);
     } catch (error) {
+      alert(error.response.data.message);
       console.error("Error fetching crates:", error);
     }
   };

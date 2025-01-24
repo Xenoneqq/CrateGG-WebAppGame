@@ -40,9 +40,17 @@ function AddFreeCrates(props){
     }
   }
 
+  const getUserCheck = () => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const userIDFromUrl = queryParams.get('userID');
+    if(userIDFromUrl === undefined || userIDFromUrl === null) return true;
+    if(userIDFromUrl == localStorage.getItem("userid")) return true;
+    return false;
+  }
+
   fetchCrateData()
 
-  if(free != 0){
+  if(free != 0 || getUserCheck() == false){
     return(<></>);
   }
   

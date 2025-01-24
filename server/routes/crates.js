@@ -249,11 +249,11 @@ router.get('/filtered', async (req, res) => {
 
     // Sort crates
     const sortingOptions = {
-      '0': 'createdAt',
+      '0': 'updatedAt',
       '1': 'price',
       '2': 'rarity',
     };
-    const sortField = sortingOptions[order] || 'createdAt';
+    const sortField = sortingOptions[order] || 'updatedAt';
     const sortDir = sortDirection === '1' ? 'ASC' : 'DESC';
 
     const sortedCrates = cratesList.sort((a, b) => {

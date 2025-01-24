@@ -36,6 +36,7 @@ function Cratepanel(){
       const response = await axios.get(`http://localhost:8080/market/search${queryString}`);
       setMarket(response.data);
     } catch (error) {
+      alert(error.response.data.message);
       console.error('Error fetching market data:', error);
     }
   }
@@ -47,6 +48,7 @@ function Cratepanel(){
       const userID = localStorage.getItem('userid');
 
       if (!token || !userID) {
+        alert('Log in to purchase an item')
         throw new Error('User is not authenticated.');
       }
 
@@ -70,6 +72,7 @@ function Cratepanel(){
       }
 
     } catch (error) {
+      alert(error.response.data.message);
       console.error(error);
     }
   }

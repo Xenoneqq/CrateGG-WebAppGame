@@ -25,7 +25,7 @@ function TradeEntry(props){
       <>
       Seller : <span
        onClick={bringToUser}
-       className='crateOwner ownerLinkButton'
+       className='crateOwnerListing ownerLinkButton'
        >{props.username}</span>
       </>)
     }

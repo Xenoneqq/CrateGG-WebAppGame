@@ -17,8 +17,8 @@ function UserLogin(){
       localStorage.setItem("userrole",response.data.userData.role)
       localStorage.setItem("usertoken" , response.data.jwt);
       window.location.href = '/storage'
-      console.log(response.data);
     } catch (error) {
+      alert(error.response.data.message);
       console.error(error);
     }
   }

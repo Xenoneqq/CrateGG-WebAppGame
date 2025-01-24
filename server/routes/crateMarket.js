@@ -134,7 +134,7 @@ router.post('/', authenticateTokenAndAdmin, async (req, res) => {
 });
 
 // DELETE a crate listing by id
-router.delete('/:id', authenticateToken, async (req, res) => {
+router.delete('/:id', authenticateTokenAndAdmin, async (req, res) => {
   try {
     const crateListing = await crateMarket.findByPk(req.params.id);
     if (!crateListing) {
@@ -229,6 +229,7 @@ router.post('/buy', authenticateToken, async (req, res) => {
       // Przypisanie skrzynki do kupującego
       const crate = marketEntry.crate;
       crate.ownerID = userID;
+      crate.updatedAt = new Date();
       await crate.save({ transaction });
 
       // Usunięcie wpisu z marketu

@@ -26,6 +26,7 @@ function UserRegister(){
       window.location.href = '/login?isUser=1'
       
     } catch (error) {
+      alert(error.response.data.message);
       console.error(error);
     }
   }

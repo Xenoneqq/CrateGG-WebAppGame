@@ -1,5 +1,26 @@
-### GET all users
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTczNzczNDMyNCwiZXhwIjoxNzM3NzU1OTI0fQ.yJMOyEDTa_U6bIAMQzeGU54-H710jMMpb25xTGMyiVI
+
+
+### GET LIST OF ALL USERS
 GET http://localhost:8080/users
 
-### GET user with id = 1
+### GET USER WITH ID
 GET http://localhost:8080/users/1
+
+### EDIT USER INFO (ADMIN)
+PUT http://localhost:8080/users/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "email": "newemail@example.com",
+  "username": "newusername",
+  "password": "newpassword123"
+}
+
+### DELETE USER (ADMIN)
+DELETE http://localhost:8080/users/9
+Authorization: Bearer {{token}}
+
+
+
