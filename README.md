@@ -26,8 +26,8 @@ Crate.GG provides the following core functionalities:
 - **User Account Management:** Full support for account creation and authentication.
 - **Crate Assignment:** Backend functionality to assign crates to users dynamically, supporting actions like purchasing and receiving crates.
 - **Crate Opening System:** A feature to simulate the opening of crates, including random crate generation with rarity tiers.
-- **Trade Market History:** A detailed list showcasing all transactions associated with the user, including both purchases and sales.
 - **Admin Privileges:** Admins have the ability to remove crates from the market without the consent of the users who own them.
+- **Trade Market History:** A detailed list showcasing all transactions associated with the user, including both purchases and sales.
 
 <img src="/docs/img/crategg_2.png" alt="Crate.GG Logo" width="100%" />
 
