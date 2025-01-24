@@ -22,6 +22,6 @@ Content-Type: application/json
   "name": "wooden crate",
   "rarity": 0,
   "patternIndex": 444,
-  "ownerID": 1
+  "ownerID": 3
 }
 

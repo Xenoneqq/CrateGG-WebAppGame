@@ -1,4 +1,5 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InBsYXllciIsInVzZXJuYW1lIjoidGVzdGVyIiwiaWF0IjoxNzM3MzYwOTMwLCJleHAiOjE3MzczODI1MzB9.SbcJiQcaaoZYvOdZbRKk_dXplp76TG-4fQPbi02kgtk
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJhZG1pbiIsImlhdCI6MTczNzczNDMyNCwiZXhwIjoxNzM3NzU1OTI0fQ.yJMOyEDTa_U6bIAMQzeGU54-H710jMMpb25xTGMyiVI
+
 
 # Test: GET all users' currency balances
 GET http://localhost:8080/user-currency
@@ -13,12 +14,12 @@ Accept: application/json
 ###
 
 # Test: PUT update a user's currency balance (replace with an actual userID)
-PUT http://localhost:8080/user-currency/1
+PUT http://localhost:8080/user-currency/3
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "currency": 500
+  "currency": 1243
 }
 
 ###

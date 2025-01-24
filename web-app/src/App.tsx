@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Layout from './pages/Layout';
 import Market from './pages/Market';
 import Storage  from './pages/Storage';
+import Trades from './pages/Trades';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='/market' element={<Market/>}/>
           <Route path='/login' element={<Login />} />
           <Route path='/storage' element={<Storage/>} />
+          <Route path='/trades' element={<Trades/>} />
         </Route>
       </Routes>
     </BrowserRouter>

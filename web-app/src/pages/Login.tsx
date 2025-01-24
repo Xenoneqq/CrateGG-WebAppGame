@@ -29,12 +29,12 @@ function Login(){
   const changeButton = () => {
     if(isUser === null || isUser === undefined || isUser == 0){
       return(<>
-      <button onClick={changeUser} className="loginInButton">I don't have an Account!</button>
+      <button onClick={changeUser} className="loginInButton">I have an Account!</button>
       </>)
     }
     else{
       return(<>
-        <button onClick={changeUser} className="loginInButton">I Have an Account!</button>
+        <button onClick={changeUser} className="loginInButton">I don't have an Account!</button>
         </>)
     }
   }

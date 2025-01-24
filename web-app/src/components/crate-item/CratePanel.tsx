@@ -8,6 +8,8 @@ import AddFreeCrates from "./AddFreeCrates";
 function CratePanel(){
   const [crates, setCrates] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [opened, setOpened] = useState([]);
+  const [openDetected, setOpenDetected] = useState(false);
   const [drawCrates, setDrawCrates] = useState(1);
 
   const [rarityFilter, setRarityFilter] = useState('');
@@ -86,11 +88,42 @@ function CratePanel(){
   const displayCrateInfoPanel = () => {
     if(selected == null) return(<></>);
     const props = {
-      cancle: () => {closePanel()}
+      cancle: () => {closePanel()},
+      openedCrates: setOpened,
+      showDrops: setOpenDetected,
     }
     return(
       <div className='buyPanel'>
       <CrateInfo {...props} {...selected} closeAction={closeWindow} updateAction={drawCases}/>
+      </div>
+    )
+  }
+
+  const dropDisplay = opened.map((crate) => {
+    return(<CrateDisplay key={crate.id} {...crate}/>)
+  })
+
+  const drawMessage = () => {
+    if(opened.length != 0) return(<></>);
+    return(<>
+      Empty crate... What a shame :c
+    </>)
+  }
+
+  const displayDroppedCrates = () => {
+    if(opened === undefined || opened === null) return(<></>);
+    if(openDetected === false) return(<></>)
+    const props = {
+      cancle: () => {closePanel()}
+    }
+    return(
+      <div style={{flexDirection:'column', gap:'20px'}} className='unboxPanel'>
+        <h2>YOUR DROPS</h2>
+        <div className="newDropsDisplay">
+        {dropDisplay} 
+        {drawMessage()}
+        </div>
+        <button onClick={() => {setOpened([]); setOpenDetected(false)}}>Continue</button>
       </div>
     )
   }
@@ -140,6 +173,7 @@ function CratePanel(){
         {cratesDisplay}
       </div>
       {displayCrateInfoPanel()}
+      {displayDroppedCrates()}
     </>
   )
 }

@@ -1,0 +1,40 @@
+.tradeMarketListing{
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: fit-content;
+  padding: 10px;
+  background-color: black;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 20px;
+}
+
+.crateOwnerListing{
+  color: rgb(57, 255, 47);
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.tradeMarketHistoryPrice{
+  color: gold;
+  font-weight: 500;
+}
+
+.tradeMarketCrateImage{
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translate(0px, -40px);
+}
+
+@media only screen and (max-width: 500px) {
+  .tradeMarketCrateImage{
+    display: none;
+  }
+}
+
+.crateImageTradeListing{
+  height: 80px;
+  image-rendering: pixelated;
+}

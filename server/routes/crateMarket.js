@@ -3,6 +3,7 @@ const { crateMarket, crateMarketHist, crates, users , sequelize, userCurrency } 
 const authenticateToken = require('../middleware/auth');
 const router = express.Router();
 const { Sequelize, Op  } = require('sequelize');
+const authenticateTokenAndAdmin = require('../middleware/adminauth.js');
 
 // GET all crate market listings
 router.get('/', async (req, res) => {
@@ -122,7 +123,7 @@ router.get('/search', async (req, res) => {
 
 
 // POST a new crate listing in the market
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', authenticateTokenAndAdmin, async (req, res) => {
   try {
     const { crateID, sellerID, price } = req.body;
     const newListing = await crateMarket.create({ crateID, sellerID, price });

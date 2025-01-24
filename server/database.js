@@ -22,12 +22,13 @@ users.hasMany(crateMarket, { foreignKey: 'sellerID' });
 
 
 // user --< market history
-crateMarketHist.belongsTo(crates, { foreignKey: 'crateID' });
+crateMarketHist.belongsTo(crates, { as: 'crate', foreignKey: 'crateID' });
+crateMarketHist.belongsTo(users, { as: 'seller', foreignKey: 'sellerID' });
+crateMarketHist.belongsTo(users, { as: 'buyer', foreignKey: 'buyerID' });
 crates.hasMany(crateMarketHist, { foreignKey: 'crateID' });
-crateMarketHist.belongsTo(users, { foreignKey: 'sellerID' });
-crateMarketHist.belongsTo(users, { foreignKey: 'buyerID' });
 users.hasMany(crateMarketHist, { foreignKey: 'sellerID' });
 users.hasMany(crateMarketHist, { foreignKey: 'buyerID' });
+
 
 // user --- currency
 users.hasOne(userCurrency, { foreignKey: 'userID' });
