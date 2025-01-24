@@ -1,6 +1,20 @@
 # Crate.GG: A Simulation Project for Virtual Crates and Marketplace
+<p>
+<b>Crate.GG</b> is a web-based project designed to simulate a marketplace for virtual collectible crates. The project allows users to collect, trade, and open crates in a fully functional ecosystem. It includes features for user account management, marketplace interactions, and crate inventory systems. 
+</p>
+<p>
+The project draws significant inspiration from the Steam Market, which features video game items that can be bought, sold, or traded. This website allows users to create their own storage units, where they can hold and manage all their collected crates.
+</p>
+<p>
+Crates are categorized by rarity tiers: Common, Rare, and Legendary. Each crate also features unique patterns that affect its appearance. Some patterns are more frequently encountered, while others are rare and include a distinctive and special design.
+The combination of rarity tiers and unique patterns encourages users to build and display the most impressive and diverse collections.
+</p>
 
-**Crate.GG** is a web-based project designed to simulate a marketplace for virtual collectible crates. The project allows users to collect, trade, and open crates in a fully functional ecosystem. It includes features for user account management, marketplace interactions, and crate inventory systems.
+## Links to sections
+- [Functional Features](#functional-features)
+- [Technologies Used](#technologies-used)
+- [How it Works](#how-it-works)
+- [Getting Started](#getting-started)
 
 ## Functional Features
 Crate.GG provides the following core functionalities:
@@ -9,6 +23,10 @@ Crate.GG provides the following core functionalities:
 - **User Account Management:** Full support for account creation and authentication.
 - **Crate Assignment:** Backend functionality to assign crates to users dynamically, supporting actions like purchasing and receiving crates.
 - **Crate Opening System:** A feature to simulate the opening of crates, including random crate generation with rarity tiers.
+- **Trade Market History:** A detailed list showcasing all transactions associated with the user, including both purchases and sales.
+- **Admin Privileges:** Admins have the ability to remove crates from the market without the consent of the users who own them.
+
+![Crate.GG trade history photo](/docs/img/crategg_2.png)
 
 ## Technologies Used
 The project is built with a modern tech stack for both the frontend and backend:
