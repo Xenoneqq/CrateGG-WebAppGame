@@ -78,6 +78,8 @@ function CrateInfo(props){
       backToItem();
       props.closeAction();
       setVisible(false);
+      props.openedCrates(response.data.newCrates)
+      props.showDrops(true);
     } catch (error) {
       console.error(error);
     }
