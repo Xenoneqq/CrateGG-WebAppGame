@@ -52,13 +52,14 @@ Clone the repository, and set up the development environment:
 1. Install the dependencies:
 npm install
 2. There might be a need to reinstall some of the plugins. Here is a one line command to install the missing plugins:
-```
+```sh
 npm install sqlite3 sequelize axios express jsonwebtoken bcrypt dotenv cors body-parser
 ```
 3. Running the website requires 2 active cmd consoles that will be running the frontend and the backend logic of the app. Here are the commands to run in the main project folder:
 - **Frontend**
-```
+```sh
 cd web-app
+npm install
 npm run dev
 ```
 - **Backend**
