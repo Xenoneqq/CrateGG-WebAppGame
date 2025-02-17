@@ -63,7 +63,7 @@ npm install
 npm run dev
 ```
 - **Backend**
-```
+```sh
 cd server
 node index.js
 ```
