@@ -1,70 +1,59 @@
-# Crate.GG: MarketPlace Simulation WebApp Project
+# CRATE.GG - MarketPlace WebApp
+A web app where users can buy and sell items in a community-driven marketplace.
 
-<img src="/docs/img/logo.png" alt="Crate.GG Logo" width="100%" />
+## About
+CRATE.GG is a marketplace for trading crates (rare collectible items). The goal is to collect as many rare crates as possible through trading and a risk-based unboxing system. The app is designed to simulate an environment similar to the Steam Marketplace.
 
-<p>
-<b>Crate.GG</b> is a web-based project designed to simulate a marketplace for virtual collectible crates. The project allows users to collect, trade, and open crates in a fully functional ecosystem. It includes features for user account management, marketplace interactions, and crate inventory systems. 
-</p>
-<p>
-The project draws significant inspiration from the Steam Market, which features video game items that can be bought, sold, or traded. This website allows users to create their own storage units, where they can hold and manage all their collected crates.
-</p>
-<p>
-Crates are categorized by rarity tiers: Common, Rare, and Legendary. Each crate also features unique patterns that affect its appearance. Some patterns are more frequently encountered, while others are rare and include a distinctive and special design.
-The combination of rarity tiers and unique patterns encourages users to build and display the most impressive and diverse collections.
-</p>
+**👤 User Storage**
 
-## Links to sections
-- [Functional Features](#functional-features)
-- [Technologies Used](#technologies-used)
-- [How it Works](#how-it-works)
-- [Getting Started](#getting-started)
+Each player, upon logging in, receives a dedicated storage page that can be viewed by other users. The storage page contains all the crates collected by the user and indicates whether any crate is currently listed on the marketplace.
 
-## Functional Features
-Crate.GG provides the following core functionalities:
-- **Marketplace:** A dedicated page displaying all crates currently listed for trade or sale by users.
-- **User Storage:** The ability to browse other users' inventories, showcasing their collection of crates.
-- **User Account Management:** Full support for account creation and authentication.
-- **Crate Assignment:** Backend functionality to assign crates to users dynamically, supporting actions like purchasing and receiving crates.
-- **Crate Opening System:** A feature to simulate the opening of crates, including random crate generation with rarity tiers.
-- **Admin Privileges:** Admins have the ability to remove crates from the market without the consent of the users who own them.
-- **Trade Market History:** A detailed list showcasing all transactions associated with the user, including both purchases and sales.
+**💸 Marketplace**
 
-<img src="/docs/img/crategg_2.png" alt="Crate.GG Logo" width="100%" />
+A community-driven marketplace where users can trade their crates for in-game currency. This currency can then be used to purchase better or rarer crates.
 
-## Technologies Used
-The project is built with a modern tech stack for both the frontend and backend:
-- **Frontend:** 
-  - React with TypeScript for a clean, type-safe, and dynamic user interface.
-  - **Axios** for handling API requests between the frontend and backend.
-- **Backend:**
-  - **SQLite3** as the database, paired with **Sequelize** as the ORM for data modeling and queries.
-  - Authentication middleware to verify users during operations like crate purchases and account access (JWT).
-  - RESTful API endpoints for all core functionalities, such as crate management, user data, and market operations.
+**📦 Crates**
 
-## How It Works
-1. **Marketplace Interaction:** Users can view and interact with all listed crates in the marketplace, either purchasing or inspecting them.
-2. **Inventory Management:** Users can see their storage of crates, open them, or sell them on the market.
-3. **Crate Opening Simulation:** Each crate can be opened to reveal sets of new crates to either open or sell on the market.
-4. **Admin Tools:** Additional backend tools allow for controlled assignment of crates to users for events or promotions. The system also includes an admin role, which allows for market crate removal, regardless if the crates are owned by the user or not.
+Crates are collectible items that can be opened, with a chance to obtain better crates at the risk of losing the one being opened. Each crate is defined by the following attributes:
 
-## Getting Started
-Clone the repository, and set up the development environment:
-1. Install the dependencies:
-npm install
-2. There might be a need to reinstall some of the plugins. Here is a one line command to install the missing plugins:
-```sh
-npm install sqlite3 sequelize axios express jsonwebtoken bcrypt dotenv cors body-parser
-```
-3. Running the website requires 2 active cmd consoles that will be running the frontend and the backend logic of the app. Here are the commands to run in the main project folder:
-- **Frontend**
-```sh
-cd web-app
-npm install
-npm run dev
-```
-- **Backend**
-```sh
-cd server
-node index.js
-```
-4. The project should be all set up and ready :D
+- **Name** – Used to differentiate one crate from another.
+- **Pattern** – Each crate is assigned a random pattern number, which determines its design. Some patterns are exceptionally rare.
+- **Rarity** – Defines how difficult the crate is to obtain. The rarer the crate, the harder it is to acquire through openings.
+
+---
+
+## How to Setup
+
+### Prerequisites
+The project uses **Node.js** for both the frontend and backend. You must install Node.js before launching the app. Download it [here](https://nodejs.org/en).
+
+### Steps to Run the App
+
+1. **Clone the Repository**
+   ```sh
+   git clone https://github.com/Xenoneqq/CrateGG-WebAppGame
+   ```
+
+2. **Install Dependencies**
+   Inside both the `server` and `web-app` directories, install all required dependencies:
+   ```sh
+   npm install
+   ```
+
+3. **Run the Server**
+   The backend handles transactions such as opening crates and creating users. To start the server:
+   ```sh
+   cd server
+   node index.js
+   ```
+
+4. **Launch the Frontend**
+   In a new terminal, navigate to the `web-app` directory and start the development server:
+   ```sh
+   cd web-app
+   npm run dev
+   ```
+
+5. **Access the Website**
+   The terminal will display the website URL. Open it in your browser to see the **CRATE.GG** welcome page.
+
